@@ -1,0 +1,95 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ddd"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp"
+    tools:context=".LoginActivity" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="190dp"
+        android:gravity="right"
+        android:text="ورود"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/tel"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/shape"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/textView1"
+        android:ems="10"
+        android:hint=" آدرس ایمیل"
+        android:inputType="textEmailAddress" 
+        android:drawableLeft="@drawable/username"/>
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tel"
+        android:ems="10"
+        android:background="@drawable/shape"
+        android:hint="کلمه عبور"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:inputType="textPassword"
+        android:gravity="right|center_vertical"
+        android:drawableLeft="@drawable/fg" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:layout_alignLeft="@+id/editText2"
+        android:layout_below="@+id/editText2"
+        android:layout_marginTop="21dp"
+        android:text="ورود"
+        android:background="#a22b6b"
+        android:textColor="#ffffff"
+        android:onClick="onclick" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/button1"
+        android:layout_below="@+id/button1"
+        android:onClick="onclick"
+         android:clickable="true"
+        android:text="فراموشی رمز عبور"
+         />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignBottom="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="27dp"
+        android:src="@drawable/logo" />
+
+    <Button
+        android:id="@+id/Register"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/textView2"
+        android:background="#a22b6b"
+        android:onClick="onclick"
+        android:text="ثبت نام"
+        android:textColor="#ffffff" />
+<!--         android:background="#35b6f1" -->
+    
+</RelativeLayout>

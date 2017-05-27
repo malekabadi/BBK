@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/android_custom_gridview_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <com.aseman.bbk.RoundedCornerLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f7ab17"
+        android:padding="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#fff"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/gridview_text1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|right"
+                    android:text="Text1"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/gridview_text2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/gridview_text1"
+                    android:layout_marginTop="25dp"
+                    android:gravity="center_vertical|right"
+                    android:text="Text1"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/gridview_text3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/gridview_text2"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_vertical|right"
+                    android:text="Text1"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="120dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/gridview_image"
+                    android:layout_width="70dip"
+                    android:layout_height="70dip"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </com.aseman.bbk.RoundedCornerLayout>
+
+</LinearLayout>
