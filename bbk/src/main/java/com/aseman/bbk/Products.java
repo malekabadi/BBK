@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -46,7 +47,7 @@ public class Products extends AppCompatActivity {
 
         private Context mContext;
         int Number=0;
-
+        int select=-1;
         public ListAdapter(Context c) {
             mContext = c;
         }
@@ -72,36 +73,65 @@ public class Products extends AppCompatActivity {
                 gridViewAndroid = (View) convertView;
             }
 
-            gridViewAndroid = new View(mContext);
-            gridViewAndroid = inflater.inflate(R.layout.grid_product, null);
-            TextView name = (TextView) gridViewAndroid.findViewById(R.id.gridview_text1);
-            TextView price = (TextView) gridViewAndroid.findViewById(R.id.gridview_text2);
-            TextView desc = (TextView) gridViewAndroid.findViewById(R.id.gridview_text3);
-            name.setText(products.get(position).Title);
-            if (products.get(position).Price.length() > 0)
-                price.setText(Utility.GetMoney(products.get(position).Price));
-            desc.setText(products.get(position).Company_Name);
-            String ID=products.get(position).ID;
-            ImageView img = (ImageView) gridViewAndroid.findViewById(R.id.gridview_image);
-            Picasso.with(mContext) //
-                    .load("https://www.bbk-iran.com/userupload/images/product-"+ID+"-thumb") //
-                    //.placeholder(R.drawable.i1) //
-                    .error(R.drawable.ic_launcher) //
-                    .fit() //
-                    .tag(mContext) //
-                    .into(img);
+            if (position == select) {
+                gridViewAndroid = inflater.inflate(R.layout.grid_product2, null);
+                TextView name = (TextView) gridViewAndroid.findViewById(R.id.gridview_text1);
+                TextView price = (TextView) gridViewAndroid.findViewById(R.id.gridview_text2);
+                TextView desc = (TextView) gridViewAndroid.findViewById(R.id.gridview_text3);
+                name.setText(products.get(position).Title);
+                if (products.get(position).Price.length() > 0)
+                    price.setText(Utility.GetMoney(products.get(position).Price));
+                desc.setText(products.get(position).Company_Name);
+                String ID=products.get(position).ID;
+                ImageView img = (ImageView) gridViewAndroid.findViewById(R.id.gridview_image);
+                Picasso.with(mContext) //
+                        .load("https://www.bbk-iran.com/userupload/images/product-"+ID+"-thumb") //
+                        //.placeholder(R.drawable.i1) //
+                        .error(R.drawable.ic_launcher) //
+                        .fit() //
+                        .tag(mContext) //
+                        .into(img);
 
-            img.setOnClickListener(new View.OnClickListener() {
+            } else {
+                gridViewAndroid = inflater.inflate(R.layout.grid_product, null);
+                LinearLayout heg = (LinearLayout) gridViewAndroid.findViewById(R.id.heg);
+//                LinearLayout.LayoutParams params = heg.getLayoutParams();
+//                params.height = 400;
+//                params.width = 100;
+//                gridViewAndroid.setLayoutParams(params);
+                //gridViewAndroid.setLayoutParams();
+//                heg.setLayoutParams(new LinearLayout.LayoutParams(100,400));
+//            }
+                TextView name = (TextView) gridViewAndroid.findViewById(R.id.gridview_text1);
+                TextView price = (TextView) gridViewAndroid.findViewById(R.id.gridview_text2);
+                TextView desc = (TextView) gridViewAndroid.findViewById(R.id.gridview_text3);
+                name.setText(products.get(position).Title);
+                if (products.get(position).Price.length() > 0)
+                    price.setText(Utility.GetMoney(products.get(position).Price));
+                desc.setText(products.get(position).Company_Name);
+                String ID = products.get(position).ID;
+                ImageView img = (ImageView) gridViewAndroid.findViewById(R.id.gridview_image);
+                Picasso.with(mContext) //
+                        .load("https://www.bbk-iran.com/userupload/images/product-" + ID + "-thumb") //
+                        //.placeholder(R.drawable.i1) //
+                        .error(R.drawable.ic_launcher) //
+                        .fit() //
+                        .tag(mContext) //
+                        .into(img);
 
-                @Override
-                public void onClick(View arg0) {
-                    // TODO Auto-generated method stub
+                img.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View arg0) {
+                        // TODO Auto-generated method stub
 //                        Intent i= new Intent(ShowProducts.this,ShowDetails.class);
 //                        i.putExtra("PID", products.get(position).ID);
 //                        startActivity(i);
-                }
-            });
-
+                        select = position;
+                        notifyDataSetChanged();
+                    }
+                });
+            }
             return gridViewAndroid;
         }
 

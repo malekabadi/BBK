@@ -66,6 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout"
         android:layout_centerHorizontal="true"
+        android:background="#9c8fbd"
         android:layout_marginTop="10dp" />
 
 </RelativeLayout>

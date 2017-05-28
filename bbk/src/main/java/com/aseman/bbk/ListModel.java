@@ -17,15 +17,31 @@ class Item
 	Bitmap image;
 }
 
-class Company {
+class Companies {
     
     public  String ID="";
     public  String Full_Name="";
-    public  String Min_Order="";
-    public  String State="";
-    public  String City="";
-    public  String Delivery="";
-}    
+    public  String Joinery="";
+    public  String Activity="";
+    public  String Activity2="";
+}
+class Company {
+
+    public  String ID="";
+    public  String Full_Name="";
+    public  String P_Name="";
+    public  String Joinery="";
+    public  String Activity="";
+    public  String Activity2="";
+    public  String Number="";
+    public  String Year="";
+    public  String Website="";
+    public  String Phone="";
+    public  String Fax="";
+    public  String P_Count="";
+    public  String Resume="";
+    public  String Medal="";
+}
 
 class Section {
     

@@ -62,6 +62,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="120dp"
+                android:id="@+id/heg"
                 android:orientation="vertical">
 
                 <ImageView

@@ -269,6 +269,81 @@ public class CallRest {
 		return product;
 	}
 
+	/****************************** Get Company List ********************************/
+	public List<Companies> GetCompanies() throws Exception {
+		JSONObject jsonResponse;
+		List<Companies> brands = new ArrayList<Companies>();
+
+		try {
+			String Content = Call("companies");
+			jsonResponse = new JSONObject(Content);
+			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
+
+			for (int i = 0; i < jsonMainNode.length(); i++) {
+				/****** Get Object for each JSON node. ***********/
+				JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
+
+				// جدا کننده سه رقم
+				// DecimalFormat f = new DecimalFormat("#,###");
+				// DecimalFormatSymbols fs = f.getDecimalFormatSymbols();
+				// fs.setGroupingSeparator(',');
+				// f.setDecimalFormatSymbols(fs);
+				Companies company = new Companies();
+
+				/******* Fetch node values **********/
+				// String min =
+				// f.format(Integer.parseInt(jsonChildNode.optString("min").toString()));
+				// String max =
+				// f.format(Integer.parseInt(jsonChildNode.optString("max").toString()));
+				company.ID = jsonChildNode.optString("id").toString();
+				company.Full_Name = jsonChildNode.optString("name").toString();
+				company.Joinery = jsonChildNode.optString("joinery").toString();
+				company.Activity = jsonChildNode.optString("activity").toString();
+				company.Activity2 = jsonChildNode.optString("activity2").toString();
+				brands.add(company);
+			}
+		} catch (JSONException e) {
+
+			e.printStackTrace();
+			return null;
+		}
+		return brands;
+	}
+
+	/******************************* Get Company With ID ********************************/
+	public Company GetCompany(String ID) throws Exception {
+		JSONObject jsonResponse;
+		Company company = new Company();
+
+		try {
+			String Content = Call("companies?id=" + ID);
+			jsonResponse = new JSONObject(Content);
+			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
+
+			/****** Get Object for each JSON node. ***********/
+			JSONObject jsonChildNode = jsonMainNode.getJSONObject(0);
+			company.ID = jsonChildNode.optString("id").toString();
+			company.Full_Name = jsonChildNode.optString("full_name").toString();
+			company.P_Name = jsonChildNode.optString("p1_name").toString();
+			company.Joinery = jsonChildNode.optString("joinery").toString();
+			company.Activity = jsonChildNode.optString("activity").toString();
+			company.Activity2 = jsonChildNode.optString("activity2").toString();
+			company.Number = jsonChildNode.optString("number").toString();
+			company.Year = jsonChildNode.optString("year").toString();
+			company.Website = jsonChildNode.optString("website").toString();
+			company.Phone = jsonChildNode.optString("phones").toString();
+			company.Fax = jsonChildNode.optString("fax").toString();
+			company.P_Count = jsonChildNode.optString("p_count").toString();
+			company.Resume = jsonChildNode.optString("resume").toString();
+			company.Medal = jsonChildNode.optString("medal").toString();
+
+		} catch (JSONException e) {
+
+			e.printStackTrace();
+			return null;
+		}
+		return company;
+	}
 
 
 
@@ -391,75 +466,6 @@ public class CallRest {
 			return null;
 		}
 		return user;
-	}
-
-	/****************************** Get Company List ********************************/
-	public List<Company> GetCompanies() throws Exception {
-		JSONObject jsonResponse;
-		List<Company> brands = new ArrayList<Company>();
-
-		try {
-			String Content = Call("companies");
-			jsonResponse = new JSONObject(Content);
-			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
-
-			for (int i = 0; i < jsonMainNode.length(); i++) {
-				/****** Get Object for each JSON node. ***********/
-				JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
-
-				// جدا کننده سه رقم
-				// DecimalFormat f = new DecimalFormat("#,###");
-				// DecimalFormatSymbols fs = f.getDecimalFormatSymbols();
-				// fs.setGroupingSeparator(',');
-				// f.setDecimalFormatSymbols(fs);
-				Company company = new Company();
-
-				/******* Fetch node values **********/
-				// String min =
-				// f.format(Integer.parseInt(jsonChildNode.optString("min").toString()));
-				// String max =
-				// f.format(Integer.parseInt(jsonChildNode.optString("max").toString()));
-				company.ID = jsonChildNode.optString("id").toString();
-				company.Full_Name = jsonChildNode.optString("full_name").toString();
-				company.State = jsonChildNode.optString("state").toString();
-				company.City = jsonChildNode.optString("city").toString();
-				company.Min_Order = jsonChildNode.optString("min_order").toString();
-				company.Delivery = jsonChildNode.optString("delivery").toString();
-				brands.add(company);
-			}
-		} catch (JSONException e) {
-
-			e.printStackTrace();
-			return null;
-		}
-		return brands;
-	}
-
-	/******************************* Get Company With ID ********************************/
-	public Company GetCompany(String ID) throws Exception {
-		JSONObject jsonResponse;
-		Company company = new Company();
-
-		try {
-			String Content = Call("companies?id=" + ID);
-			jsonResponse = new JSONObject(Content);
-			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
-
-			/****** Get Object for each JSON node. ***********/
-			JSONObject jsonChildNode = jsonMainNode.getJSONObject(0);
-			company.ID = jsonChildNode.optString("id").toString();
-			company.Full_Name = jsonChildNode.optString("full_name").toString();
-			company.State = jsonChildNode.optString("state").toString();
-			company.City = jsonChildNode.optString("city").toString();
-			company.Min_Order = jsonChildNode.optString("min_order").toString();
-			company.Delivery = jsonChildNode.optString("delivery").toString();
-
-		} catch (JSONException e) {
-
-			e.printStackTrace();
-			return null;
-		}
-		return company;
 	}
 
 	/******************************* Get Section List ********************************/
