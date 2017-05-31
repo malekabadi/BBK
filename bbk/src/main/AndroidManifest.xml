@@ -25,6 +25,7 @@
         <activity android:name=".Products" />
         <activity android:name=".Banner" />
         <activity android:name=".Details" />
+        <activity android:name=".About" />
         <!-- <activity -->
         <!-- android:name=".MainActivity" -->
         <!-- android:label="@string/title_activity_menu_right" -->
@@ -34,6 +35,9 @@
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ScrollingActivity"
+            android:label="@string/title_activity_home"></activity>
     </application>
 
 </manifest>

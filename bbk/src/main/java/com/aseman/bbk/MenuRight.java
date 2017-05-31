@@ -77,6 +77,16 @@ public class MenuRight extends AppCompatActivity
                 startActivity(i);
             }
         });
+
+        CircleImageView intro=(CircleImageView) findViewById(R.id.tab4);
+        intro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MenuRight.this,Introduction.class);
+                startActivity(i);
+            }
+        });
+
         productsList = (GridView) findViewById(R.id.gridView);
         listAdapter=new ListAdapter(this);
         productsList.setAdapter(listAdapter);

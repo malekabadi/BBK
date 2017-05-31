@@ -275,7 +275,7 @@ public class CallRest {
 		List<Companies> brands = new ArrayList<Companies>();
 
 		try {
-			String Content = Call("companies");
+			String Content = CallAsync("companies");
 			jsonResponse = new JSONObject(Content);
 			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
 
@@ -316,7 +316,7 @@ public class CallRest {
 		Company company = new Company();
 
 		try {
-			String Content = Call("companies?id=" + ID);
+			String Content = CallAsync("company?id=" + ID);
 			jsonResponse = new JSONObject(Content);
 			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
 

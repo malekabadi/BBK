@@ -28,28 +28,28 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/gridview_text1"
+                android:id="@+id/Name"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|right"
-                android:text="Text1"
+                android:text="Name"
                 android:textSize="28sp" />
 
             <TextView
-                android:id="@+id/gridview_text2"
+                android:id="@+id/Number"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/gridview_text1"
                 android:layout_marginTop="5dp"
                 android:gravity="center_vertical|right"
-                android:text="Text1"
+                android:text="Number"
                 android:textSize="18sp" />
 
         </LinearLayout>
 
 
         <ImageView
-            android:id="@+id/gridview_image"
+            android:id="@+id/logo"
             android:layout_width="70dip"
             android:layout_height="70dip"
             android:layout_marginTop="2dp"
@@ -71,44 +71,53 @@
         android:layout_above="@+id/Lay4">
 
         <TextView
-            android:id="@+id/text1"
+            android:id="@+id/Act"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical|right"
-            android:text="Text1"
+            android:text="Activity"
             android:textSize="20sp" />
         <!--android:background="@drawable/editt"-->
 
 
         <TextView
-            android:id="@+id/text2"
+            android:id="@+id/Manager"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/gridview_text1"
             android:layout_marginTop="5dp"
             android:gravity="center_vertical|right"
-            android:text="Text1"
-            android:layout_weight="1"
+            android:text="Manager"
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/text3"
+            android:id="@+id/Year"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/gridview_text2"
             android:layout_marginTop="5dp"
             android:gravity="center_vertical|right"
-            android:text="Text1"
+            android:text="Year"
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/text4"
+            android:id="@+id/WWW"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/gridview_text2"
             android:layout_marginTop="5dp"
             android:gravity="center_vertical|right"
-            android:text="Text1"
+            android:text="www"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/Resume"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gridview_text2"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical|right"
+            android:text="Resume"
             android:layout_weight="1"
             android:textSize="20sp" />
 
@@ -132,6 +141,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
+            android:padding="10dp"
             android:src="@drawable/sms" />
 
         <ImageView
@@ -141,6 +151,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginRight="5dp"
+            android:padding="10dp"
             android:layout_weight="1"
             android:src="@drawable/call" />
 
@@ -152,6 +163,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginRight="5dp"
+            android:padding="10dp"
             android:layout_weight="1"
             android:src="@drawable/email" />
 
