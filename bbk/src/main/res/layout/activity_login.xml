@@ -56,7 +56,7 @@
         android:layout_below="@+id/editText2"
         android:layout_marginTop="21dp"
         android:text="ورود"
-        android:background="#a22b6b"
+        android:background="@color/colorPrimary"
         android:textColor="#ffffff"
         android:onClick="onclick" />
 
@@ -78,7 +78,7 @@
         android:layout_alignBottom="@+id/textView1"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="27dp"
-        android:src="@drawable/logo" />
+        android:src="@drawable/bbk1" />
 
     <Button
         android:id="@+id/Register"
@@ -86,7 +86,7 @@
         android:layout_height="35dp"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/textView2"
-        android:background="#a22b6b"
+        android:background="@color/colorPrimary"
         android:onClick="onclick"
         android:text="ثبت نام"
         android:textColor="#ffffff" />

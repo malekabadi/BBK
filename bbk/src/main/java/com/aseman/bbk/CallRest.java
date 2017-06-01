@@ -270,12 +270,12 @@ public class CallRest {
 	}
 
 	/****************************** Get Company List ********************************/
-	public List<Companies> GetCompanies() throws Exception {
+	public List<Companies> GetCompanies(String SID) throws Exception {
 		JSONObject jsonResponse;
 		List<Companies> brands = new ArrayList<Companies>();
 
 		try {
-			String Content = CallAsync("companies");
+			String Content = CallAsync("companies?sid="+SID);
 			jsonResponse = new JSONObject(Content);
 			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
 
@@ -345,7 +345,70 @@ public class CallRest {
 		return company;
 	}
 
+	/******************************* Get Section List ********************************/
+	public List<Section> GetSections(String parent) throws Exception {
+		JSONObject jsonResponse;
+		List<Section> sections = new ArrayList<Section>();
 
+		try {
+			String Content = CallAsync("sections?parent=" + parent);
+			jsonResponse = new JSONObject(Content);
+			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
+
+			for (int i = 0; i < jsonMainNode.length(); i++) {
+				Section section = new Section();
+				/****** Get Object for each JSON node. ***********/
+				JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
+				section.ID = jsonChildNode.optString("id").toString();
+				section.Title = jsonChildNode.optString("title").toString();
+				section.Parnet = jsonChildNode.optString("parent").toString();
+				section.Type = jsonChildNode.optString("type").toString();
+				section.Ordering = jsonChildNode.optString("ordering").toString();
+				sections.add(section);
+			}
+		} catch (JSONException e) {
+
+			e.printStackTrace();
+			return null;
+		}
+		return sections;
+	}
+	/*************************************  Save User Profile ***********************************/
+	public String SaveBanner(String name, String price, String type, String email, String mobile, String location,String content) {
+
+		try {
+
+			// Create the POST object and add the parameters
+			HttpPost httpPost = new HttpPost("http://webservice.ferzmarket.com/Register");
+
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+			nameValuePairs.add(new BasicNameValuePair("name", name));
+			nameValuePairs.add(new BasicNameValuePair("price", price));
+			nameValuePairs.add(new BasicNameValuePair("email", email));
+			nameValuePairs.add(new BasicNameValuePair("tel", mobile));
+			nameValuePairs.add(new BasicNameValuePair("location", location));
+			nameValuePairs.add(new BasicNameValuePair("type", type));
+			nameValuePairs.add(new BasicNameValuePair("content", content));
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+			HttpClient httpClient = new DefaultHttpClient();
+			HttpResponse httpResponse = httpClient.execute(httpPost);
+			HttpEntity httpEntity = httpResponse.getEntity();
+			InputStream stream = httpEntity.getContent();
+
+			// Convert the stream to readable format
+			String result = convertStreamToString(stream);
+			JSONObject jsonResponse = new JSONObject(result);
+			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
+
+			/****** Get Object for each JSON node. ***********/
+			JSONObject jsonChildNode = jsonMainNode.getJSONObject(0);
+			return jsonChildNode.optString("uid").toString();
+		} catch (Exception e) {
+			return null;
+		}
+
+	}
 
 
 
@@ -466,58 +529,6 @@ public class CallRest {
 			return null;
 		}
 		return user;
-	}
-
-	/******************************* Get Section List ********************************/
-	public List<Section> GetSections(String parent) throws Exception {
-		JSONObject jsonResponse;
-		List<Section> sections = new ArrayList<Section>();
-
-		try {
-			String Content = Call("sections?parent=" + parent);
-			jsonResponse = new JSONObject(Content);
-			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
-
-			for (int i = 0; i < jsonMainNode.length(); i++) {
-				Section section = new Section();
-				/****** Get Object for each JSON node. ***********/
-				JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
-				section.ID = jsonChildNode.optString("id").toString();
-				section.Title = jsonChildNode.optString("title").toString();
-				sections.add(section);
-			}
-		} catch (JSONException e) {
-
-			e.printStackTrace();
-			return null;
-		}
-		return sections;
-	}
-
-	/******************************* Get Section List ********************************/
-	public List<Section> GetSectionsAsync(String parent) throws Exception {
-		JSONObject jsonResponse;
-		List<Section> sections = new ArrayList<Section>();
-
-		try {
-			String Content = CallAsync("sections?parent=" + parent);
-			jsonResponse = new JSONObject(Content);
-			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
-
-			for (int i = 0; i < jsonMainNode.length(); i++) {
-				Section section = new Section();
-				/****** Get Object for each JSON node. ***********/
-				JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
-				section.ID = jsonChildNode.optString("id").toString();
-				section.Title = jsonChildNode.optString("title").toString();
-				sections.add(section);
-			}
-		} catch (JSONException e) {
-
-			e.printStackTrace();
-			return null;
-		}
-		return sections;
 	}
 
 	/******************************* Get Sections of Company ********************************/

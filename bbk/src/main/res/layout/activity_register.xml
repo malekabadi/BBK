@@ -16,7 +16,7 @@
         android:layout_alignParentBottom="true"
         android:onClick="onclick"
         android:textColor="#ffffff"
-        android:background="#a22b6b"
+        android:background="@color/colorPrimary"
         android:text="ثبت نام" />
 
     <EditText
@@ -87,6 +87,6 @@
         android:layout_above="@+id/textView1"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="55dp"
-        android:src="@drawable/logo" />
+        android:src="@drawable/bbk1" />
 
 </RelativeLayout>

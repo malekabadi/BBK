@@ -1,5 +1,6 @@
 package com.aseman.bbk;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -56,6 +57,16 @@ public class About extends AppCompatActivity {
                 .fit() //
                 .tag(this) //
                 .into(img);
+
+        ImageView email = (ImageView) findViewById(R.id.b3);
+        email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(About.this,SendMail.class);
+                startActivity(i);
+            }
+        });
+
 
     }
 }

@@ -1,6 +1,7 @@
 package com.aseman.bbk;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -91,6 +92,15 @@ public class Products extends AppCompatActivity {
                         .fit() //
                         .tag(mContext) //
                         .into(img);
+                ImageView email = (ImageView) gridViewAndroid.findViewById(R.id.b3);
+                email.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i=new Intent(mContext,SendMail.class);
+                        startActivity(i);
+                    }
+                });
+
 
             } else {
                 gridViewAndroid = inflater.inflate(R.layout.grid_product, null);

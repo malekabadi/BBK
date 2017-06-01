@@ -47,7 +47,10 @@ class Section {
     
     public  String ID="";
     public  String Title="";
-}    
+    public  String Parnet="";
+    public  String Type="";
+    public  String Ordering="";
+}
 
 class Status {
     

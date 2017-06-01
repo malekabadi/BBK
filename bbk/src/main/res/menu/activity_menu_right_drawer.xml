@@ -3,38 +3,42 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
             android:title="خانه" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
+            android:id="@+id/nav_request"
+            android:icon="@drawable/ic_request"
             android:title="ثبت رایگان درخواست" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:id="@+id/nav_special"
+            android:icon="@drawable/ic_special"
             android:title="پیشنهادی ویژه" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
+            android:id="@+id/nav_mybanner"
+            android:icon="@drawable/ic_banner"
             android:title="آگهی های من" />
 
         <item
             android:id="@+id/nav_fav"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_fav"
             android:title="آگهی های مورد علاقه من" />
     </group>
 
     <item android:title="بخش کاربری">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
+                android:id="@+id/nav_account"
+                android:icon="@drawable/ic_person"
                 android:title="حساب کاربری" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="دباره ما" />
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_about"
+                android:title="درباره ما" />
+            <item
+                android:id="@+id/nav_exit"
+                android:icon="@drawable/ic_power"
+                android:title="خروج از حساب کاربری " />
         </menu>
     </item>
 

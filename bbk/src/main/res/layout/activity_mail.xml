@@ -97,7 +97,9 @@
         android:layout_width="fill_parent"
         android:layout_height="35dip"
         android:layout_marginTop="5dip"
-        android:background="@drawable/editt"
-        android:text="ثبت" />
+        android:textColor="#fff"
+        android:textSize="16sp"
+        android:background="@color/colorPrimary"
+        android:text="ارسال ایمیل" />
 
 </LinearLayout>
