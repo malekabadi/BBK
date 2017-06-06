@@ -1,9 +1,109 @@
 package com.aseman.bbk;
 
 import android.graphics.Bitmap;
+import android.widget.ImageView;
 
 public class ListModel {
     
+    private  String Name="";
+    private  String Date="";
+    private  String Min="";
+    private  String Max="";
+    private  String AvgDay="";
+    private  String Change="";
+    private  String AvgMonth="";
+    private	 String PId="";
+    private	 String Id="";
+
+    /*********** Set Methods ******************/
+    public void setName(String Name)
+    {
+        this.Name = Name;
+    }
+
+    public void setDate(String Date)
+    {
+        this.Date = Date;
+    }
+
+    public void setMin(String Min)
+    {
+        this.Min = Min;
+    }
+
+    public void setMax(String Max)
+    {
+        this.Max = Max;
+    }
+
+    public void setAvgDay(String AvgDay)
+    {
+        this.AvgDay = AvgDay;
+    }
+
+    public void setChange(String Change)
+    {
+        this.Change = Change;
+    }
+
+    public void setAvgMonth(String AvgMonth)
+    {
+        this.AvgMonth = AvgMonth;
+    }
+
+    public void setPId(String PId)
+    {
+        this.PId = PId;
+    }
+    public void setId(String Id)
+    {
+        this.Id = Id;
+    }
+    /*********** Get Methods ****************/
+
+    public String getName()
+    {
+        return this.Name;
+    }
+
+    public String getDate()
+    {
+        return this.Date;
+    }
+
+    public String getMin()
+    {
+        return this.Min;
+    }
+
+    public String getMax()
+    {
+        return this.Max;
+    }
+
+    public String getAvgDay()
+    {
+        return this.AvgDay;
+    }
+
+    public String getChange()
+    {
+        return this.Change;
+    }
+
+    public String getAvgMonth()
+    {
+        return this.AvgMonth;
+    }
+
+    public String getPId()
+    {
+        return this.PId;
+    }
+    public String getId()
+    {
+        return this.Id;
+    }
 }
 class Item
 {
@@ -43,6 +143,11 @@ class Company {
     public  String Medal="";
 }
 
+class ImageList {
+
+    public ImageView iv;
+    public  String Path="";
+}
 class Section {
     
     public  String ID="";

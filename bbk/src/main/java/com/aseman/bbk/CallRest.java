@@ -69,6 +69,28 @@ public class CallRest {
 	}
 
 	// --------------------------------------------------------
+	public String CallPrice(String method) {
+		try {
+			System.out.println("guru");
+			DefaultHttpClient httpClient = new DefaultHttpClient();
+			method = method.replaceAll(" ", "%20");
+			// HttpGet httpGet=new
+			// HttpGet("http://10.0.2.2/wcfService/RestServiceImpl.svc/"+addr);
+			HttpGet httpGet = new HttpGet("http://www.bbk-iran.com/widget/livestock.php" + method);
+			// Get the response
+			HttpResponse httpResponse = httpClient.execute(httpGet);
+			HttpEntity httpEntity = httpResponse.getEntity();
+			InputStream stream = httpEntity.getContent();
+
+			// Convert the stream to readable format
+			String result = convertStreamToString(stream);
+			return result;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	// --------------------------------------------------------
 	public String Call(String method) {
 		try {
 			System.out.println("guru");
@@ -245,22 +267,22 @@ public class CallRest {
 			product.Price = jsonChildNode.optString("price").toString();
 			product.Unit = jsonChildNode.optString("unit").toString();
 			product.Discount = jsonChildNode.optString("discount").toString();
-			product.Company_ID = jsonChildNode.optString("Company_ID").toString();
-			product.Company_Name = jsonChildNode.optString("Company_Name").toString();
-			product.Company_Joinery = jsonChildNode.optString("Company_Joinery").toString();
-			product.Company_p1_Name = jsonChildNode.optString("Company_p1_Name").toString();
-			product.Company_Number = jsonChildNode.optString("Company_Number").toString();
-			product.Company_Year = jsonChildNode.optString("Company_Year").toString();
-			product.Company_Website = jsonChildNode.optString("Company_Website").toString();
-			product.Company_Phones = jsonChildNode.optString("Company_Phones").toString();
-			product.Company_Fax = jsonChildNode.optString("Company_Fax").toString();
-			product.User_ID = jsonChildNode.optString("User_ID").toString();
-			product.Tax = jsonChildNode.optString("Tax").toString();
-			product.Shoping_Cost = jsonChildNode.optString("Shoping_Cost").toString();
-			product.Time_Delivery = jsonChildNode.optString("Time_Delivery").toString();
-			product.After_Sales = jsonChildNode.optString("After_Sales").toString();
-			product.Catalog = jsonChildNode.optString("Catalog").toString();
-			product.Introduct = jsonChildNode.optString("Introduct").toString();
+			product.Company_ID = jsonChildNode.optString("company_id").toString();
+			product.Company_Name = jsonChildNode.optString("company_name").toString();
+			product.Company_Joinery = jsonChildNode.optString("company_joinery").toString();
+			product.Company_p1_Name = jsonChildNode.optString("company_p1_name").toString();
+			product.Company_Number = jsonChildNode.optString("company_number").toString();
+			product.Company_Year = jsonChildNode.optString("company_year").toString();
+			product.Company_Website = jsonChildNode.optString("company_website").toString();
+			product.Company_Phones = jsonChildNode.optString("company_phones").toString();
+			product.Company_Fax = jsonChildNode.optString("company_fax").toString();
+			product.User_ID = jsonChildNode.optString("user_id").toString();
+			product.Tax = jsonChildNode.optString("tax").toString();
+			product.Shoping_Cost = jsonChildNode.optString("shoping_cost").toString();
+			product.Time_Delivery = jsonChildNode.optString("time_delivery").toString();
+			product.After_Sales = jsonChildNode.optString("after_sales").toString();
+			product.Catalog = jsonChildNode.optString("catalog").toString();
+			product.Introduct = jsonChildNode.optString("introduct").toString();
 		} catch (JSONException e) {
 
 			e.printStackTrace();

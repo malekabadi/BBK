@@ -7,6 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#ddd"
     tools:context="com.aseman.bbk.Products">
 
     <LinearLayout
@@ -17,14 +18,17 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
+        android:paddingRight="5dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="70dip"
+            android:layout_height="150dip"
             android:layout_marginTop="3dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
+            android:background="#fff"
             android:orientation="vertical">
 
             <TextView
@@ -33,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|right"
                 android:text="Name"
-                android:textSize="28sp" />
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/Number"
@@ -50,10 +54,10 @@
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="70dip"
-            android:layout_height="70dip"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/transparent"
+            android:layout_width="150dip"
+            android:layout_height="150dip"
+            android:layout_marginTop="3dp"
+            android:background="#fff"
             android:padding="5dp" />
 
 
@@ -76,7 +80,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical|right"
             android:text="Activity"
-            android:textSize="20sp" />
+            android:background="#fff"
+            android:textSize="18sp" />
         <!--android:background="@drawable/editt"-->
 
 
@@ -88,7 +93,8 @@
             android:layout_marginTop="5dp"
             android:gravity="center_vertical|right"
             android:text="Manager"
-            android:textSize="20sp" />
+            android:background="#fff"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/Year"
@@ -98,7 +104,8 @@
             android:layout_marginTop="5dp"
             android:gravity="center_vertical|right"
             android:text="Year"
-            android:textSize="20sp" />
+            android:background="#fff"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/WWW"
@@ -108,6 +115,7 @@
             android:layout_marginTop="5dp"
             android:gravity="center_vertical|right"
             android:text="www"
+            android:background="#fff"
             android:textSize="20sp" />
 
         <TextView
@@ -119,7 +127,8 @@
             android:gravity="center_vertical|right"
             android:text="Resume"
             android:layout_weight="1"
-            android:textSize="20sp" />
+            android:background="#fff"
+            android:textSize="14sp" />
 
     </LinearLayout>
 
@@ -128,8 +137,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:background="#fff"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true">
 

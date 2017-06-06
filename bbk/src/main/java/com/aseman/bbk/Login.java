@@ -11,13 +11,17 @@ import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class Login extends Activity {
+public class Login extends AppCompatActivity {
 
 	Button logbtn;
 	EditText phone;
@@ -30,6 +34,14 @@ public class Login extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		/*************************************************** Set Custom ActionBar *****/
+		getSupportActionBar().setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setCustomView(R.layout.actionbar);
+		getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.base_color));
+		View mCustomView = getSupportActionBar().getCustomView();
+		TextView title = (TextView) mCustomView.findViewById(R.id.title);
+		title.setText("ورود به حساب کاربری");
+
 		progressDialog = new ProgressDialog(Login.this);
 		phone = (EditText) findViewById(R.id.tel);
 		pass = (EditText) findViewById(R.id.pass);
@@ -172,4 +184,25 @@ public class Login extends Activity {
 			}
 		});
 	}
+
+	//------------------------------------------------------ Action Bar Menu
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.action, menu);
+		return true;
+	}
+
+	//-----------------------------
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.arrow_back:
+				finish();
+				break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	// -----------------------
+
 }

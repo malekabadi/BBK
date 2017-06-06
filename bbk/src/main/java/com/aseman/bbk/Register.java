@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Register extends Activity {
+public class Register extends AppCompatActivity {
 
 	EditText phone, password, newpassword;
 	TextView tv;
@@ -19,6 +22,15 @@ public class Register extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
+
+		/*************************************************** Set Custom ActionBar *****/
+		getSupportActionBar().setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setCustomView(R.layout.actionbar);
+		getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.base_color));
+		View mCustomView = getSupportActionBar().getCustomView();
+		TextView title = (TextView) mCustomView.findViewById(R.id.title);
+		title.setText("ایجاد حساب کاربری");
+
 		sp = getSharedPreferences("share", 0);
 	}
 
@@ -83,4 +95,26 @@ public class Register extends Activity {
 			}
 		});
 	}
+
+
+	//------------------------------------------------------ Action Bar Menu
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.action, menu);
+		return true;
+	}
+
+	//-----------------------------
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.arrow_back:
+				finish();
+				break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	// -----------------------
+
 }

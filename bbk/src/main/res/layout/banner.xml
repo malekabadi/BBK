@@ -1,6 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:float="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="fill"
@@ -21,8 +19,8 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:hint="عنوان آگهی" />
+            android:hint="عنوان آگهی"
+            android:textSize="14sp" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -34,19 +32,44 @@
             android:id="@+id/price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:hint="قیمت" />
+            android:hint="قیمت"
+            android:textSize="14sp" />
 
     </android.support.design.widget.TextInputLayout>
 
-    <Spinner
-        android:id="@+id/type"
-        android:layout_height="35dp"
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/type"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:prompt="@string/app_name"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/addpic"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:background="#FCD705"
+            android:layout_marginRight="5dp"
+            android:textColor="#000"
+            android:gravity="center"
+            android:text="افزودن عکس" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/hlistview"
         android:layout_width="match_parent"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="4dip"
-        android:prompt="@string/app_name"
-        android:textSize="12sp" />
+        android:layout_height="70dp"
+        android:layout_below="@+id/lay1"
+        android:layout_marginTop="5dp"
+        android:scrollbars="horizontal" />
 
 
     <android.support.design.widget.TextInputLayout
@@ -57,8 +80,8 @@
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:hint="ایمیل"/>
+            android:hint="ایمیل"
+            android:textSize="14sp" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -70,8 +93,8 @@
             android:id="@+id/mobile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:hint="موبایل"/>
+            android:hint="موبایل"
+            android:textSize="14sp" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -79,40 +102,40 @@
         android:layout_width="fill_parent"
         android:layout_height="35dp">
 
-            <Spinner
-                android:id="@+id/txtState"
-                android:layout_height="37dp"
-                android:layout_width="0dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="4dip"
-                android:layout_weight="1"
-                android:prompt="@string/app_name"
-                android:textSize="12sp" />
+        <Spinner
+            android:id="@+id/txtState"
+            android:layout_width="0dp"
+            android:layout_height="37dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="4dip"
+            android:layout_weight="1"
+            android:prompt="@string/app_name"
+            android:textSize="12sp" />
 
 
-            <Spinner
-                android:id="@+id/txtCity"
-                android:layout_height="37dp"
-                android:layout_width="0dp"
-                android:layout_marginTop="4dip"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:prompt="@string/app_name"
-                android:textSize="12sp" />
+        <Spinner
+            android:id="@+id/txtCity"
+            android:layout_width="0dp"
+            android:layout_height="37dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="4dip"
+            android:layout_weight="1"
+            android:prompt="@string/app_name"
+            android:textSize="12sp" />
 
     </LinearLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <EditText
             android:id="@+id/desc"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
-            android:hint="توضیحات"/>
+            android:hint="توضیحات" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -121,9 +144,9 @@
         android:layout_width="fill_parent"
         android:layout_height="35dip"
         android:layout_marginTop="5dip"
-        android:textColor="#fff"
-        android:textSize="16sp"
         android:background="@color/colorPrimary"
-        android:text="ثبت درخواست" />
+        android:text="ثبت درخواست"
+        android:textColor="#fff"
+        android:textSize="16sp" />
 
 </LinearLayout>

@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -36,13 +38,22 @@ public class Introduction extends AppCompatActivity {
     ListAdapter listAdapter;
     GridView productsList;
     List<Section> sections = new ArrayList<Section>();
-    String SID="",Title="";
+    String SID="",Title="همه بخش ها",prevTitle="";
     TextView sec;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_introduction);
+
+        /*************************************************** Set Custom ActionBar *****/
+        getSupportActionBar().setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar);
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.base_color));
+        View mCustomView = getSupportActionBar().getCustomView();
+        TextView title = (TextView) mCustomView.findViewById(R.id.title);
+        title.setText("لیست شرکت ها");
+
 
         CallRest cr = new CallRest();
         try {
@@ -189,25 +200,28 @@ public class Introduction extends AppCompatActivity {
 
         popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
-
+        Category.add(0,"همه بخش ها");
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
                 CallRest cr = new CallRest();
-                SID=sections.get(position).ID;
-                Title=sections.get(position).Title;
-                try {
-                    sections = cr.GetSections(sections.get(position).ID);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (position>0) {
+                    SID = sections.get(position - 1).ID;
+                    prevTitle = Title;
+                    Title = sections.get(position - 1).Title;
+                    try {
+                        sections = cr.GetSections(SID);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    Category.clear();
+                    Category.add("همه بخش ها");
+                    for (Section i : sections)
+                        Category.add(i.Title);
+                    adapter.notifyDataSetChanged();
                 }
-                Category.clear();
-                Category.add("همه بخش ها");
-                for (Section i:sections)
-                    Category.add(i.Title);
-                adapter.notifyDataSetChanged();
                 if (sections.size()<1 || position<1) {
                     popup.dismiss();
                     try {
@@ -224,6 +238,25 @@ public class Introduction extends AppCompatActivity {
 
     }
 
+    //------------------------------------------------------ Action Bar Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.action, menu);
+        return true;
+    }
+
+    //-----------------------------
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.arrow_back:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    // -----------------------
 
 //------------------ End Of Activity
 }

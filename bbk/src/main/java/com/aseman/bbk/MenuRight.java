@@ -32,7 +32,7 @@ public class MenuRight extends AppCompatActivity
     List<Product> products=new ArrayList<Product>();
     ListAdapter listAdapter;
     GridView productsList;
-
+    public static TextView name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,21 @@ public class MenuRight extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View header=navigationView.getHeaderView(0);
+        name = (TextView)header.findViewById(R.id.Name);
+        if (! appVar.main.UserName.equals("0")) {
+            name.setText(appVar.main.UserName);
+            navigationView.getMenu().findItem(R.id.nav_account).setEnabled(true);
+        }
+        else
+            name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(MenuRight.this,Login.class));
+                }
+            });
+
 
         CallRest cr = new CallRest();
         try {
@@ -74,6 +89,24 @@ public class MenuRight extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MenuRight.this, Products.class);
+                startActivity(i);
+            }
+        });
+
+        CircleImageView buy=(CircleImageView) findViewById(R.id.tab2);
+        buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MenuRight.this, Products.class);
+                startActivity(i);
+            }
+        });
+
+        CircleImageView prc=(CircleImageView) findViewById(R.id.tab3);
+        prc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MenuRight.this, Price.class);
                 startActivity(i);
             }
         });
@@ -131,7 +164,7 @@ public class MenuRight extends AppCompatActivity
             name.setText(products.get(position).Title);
             if (products.get(position).Price.length() > 0)
                 price.setText(Utility.GetMoney(products.get(position).Price));
-            desc.setText(products.get(position).Company_Name);
+            desc.setText(products.get(position).Field1);
             String ID=products.get(position).ID;
             ImageView img = (ImageView) gridViewAndroid.findViewById(R.id.gridview_image);
             Picasso.with(mContext) //

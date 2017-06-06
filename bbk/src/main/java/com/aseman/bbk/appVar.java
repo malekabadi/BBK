@@ -15,7 +15,7 @@ public class appVar {
 		public static final String List   = "List";
 		public static final String Third="third";
 		public static String UserID="1";
-		public static String UserName="";
+		public static String UserName="0";
 		public static String UserKey="";
 		public static String ShopID="";
 		public static int Index=-1;

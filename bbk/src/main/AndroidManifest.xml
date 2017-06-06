@@ -6,6 +6,10 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
     <application
         android:allowBackup="true"
@@ -23,14 +27,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".Products" />
+        <activity android:name=".Login" />
+        <activity android:name=".Register" />
         <activity android:name=".Banner" />
         <activity android:name=".Details" />
         <activity android:name=".SendMail" />
         <activity android:name=".About" />
-        <!-- <activity -->
-        <!-- android:name=".MainActivity" -->
-        <!-- android:label="@string/title_activity_menu_right" -->
-        <!-- android:theme="@style/AppTheme.NoActionBar" /> -->
+        <activity android:name=".Price" />
         <activity android:name=".Introduction" />
         <activity
             android:name=".HomeActivity"
