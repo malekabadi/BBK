@@ -2,44 +2,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ddd"
+    android:background="#ededee"
     android:paddingBottom="10dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="10dp"
-    tools:context=".LoginActivity" >
+    tools:context=".Login" >
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="190dp"
-        android:gravity="right"
-        android:text="ورود"
-        android:textSize="18sp" />
+        android:gravity="center"
+        android:textColor="#8dcb7b"
+        android:text="ورود به حساب کاربری"
+        android:textSize="22sp"
+        android:layout_below="@+id/imageView1"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:id="@+id/tel"
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:background="@drawable/shape"
+        android:layout_height="50dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/textView1"
         android:ems="10"
-        android:hint=" آدرس ایمیل"
+        android:hint=" شماره موبایل "
         android:inputType="textEmailAddress" 
         android:drawableLeft="@drawable/username"/>
 
     <EditText
         android:id="@+id/editText2"
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/tel"
         android:ems="10"
-        android:background="@drawable/shape"
         android:hint="کلمه عبور"
         android:layout_marginTop="10dp"
         android:paddingLeft="10dp"
@@ -73,9 +72,8 @@
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_alignBottom="@+id/textView1"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="27dp"
         android:src="@drawable/bbk1" />

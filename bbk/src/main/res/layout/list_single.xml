@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:showDividers="none" >
+
+    <TableRow
+        android:dividerPadding="0dp"
+        android:gravity="right"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="12dp"
+        android:paddingTop="12dp"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical|horizontal"
+        android:showDividers="none" >
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:src="@drawable/chart" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="32dp"
+            android:maxWidth="32dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            android:src="@drawable/up" />
+
+        <TextView
+            android:id="@+id/max"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight=".18"
+            android:textColor="#F60" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="32dp"
+            android:maxWidth="32dp"
+            android:padding="5dp"
+            android:src="@drawable/down" />
+
+        <TextView
+            android:id="@+id/min"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight=".18"
+            android:textColor="#F60" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight=".18"
+            android:gravity="center_horizontal"
+            android:textAlignment="gravity"
+            android:textColor="#444" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_weight=".23"
+            android:layout_height="32dp"
+            android:textColor="#444" />
+
+</TableRow>
+</TableLayout>

@@ -28,7 +28,7 @@ public class Details extends AppCompatActivity {
         /*************************************************** Set Custom ActionBar *****/
         getSupportActionBar().setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
-        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.base_color));
+//        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.base_color));
         View mCustomView = getSupportActionBar().getCustomView();
         TextView Title = (TextView) mCustomView.findViewById(R.id.title);
         Title.setText("اطلاعات محصول");

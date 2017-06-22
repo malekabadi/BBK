@@ -3,7 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#83c670"
     tools:context="com.aseman.bbk.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/mainbk"
+        android:id="@+id/relativeLayout"
+        android:layout_above="@+id/section">
+
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/imageView"
@@ -12,73 +23,53 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:src="@drawable/bbk1" />
+        android:src="@drawable/bbk" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/srch_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
         android:hint="جستجو"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:drawableLeft="@drawable/search"
+        android:background="@drawable/searchbk"
+        android:gravity="center_vertical"
+        android:paddingRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp"
         android:layout_marginTop="10dp" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <TextView
+        android:id="@+id/section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText"
-        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/tab1"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/sale" />
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/tab2"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/buy3" />
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/tab3"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/dollar" />
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/tab4"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/intro" />
-
-    </LinearLayout>
+        android:layout_marginBottom="10dp"
+        android:text="همه بخش ها"
+        android:gravity="center"
+        android:textSize="16dp"
+        android:background="@drawable/sectionbk"
+        android:padding="5dp"
+        android:drawableLeft="@drawable/ic_arrow_drop"
+        android:layout_below="@+id/srch_text"
+        android:layout_centerHorizontal="true" />
 
     <GridView
-        android:id="@+id/gridView"
+        android:id="@+id/companyList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" />
+        android:background="#f5f5f6"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:numColumns="3"
+        android:layout_below="@+id/section" />
+
 </RelativeLayout>

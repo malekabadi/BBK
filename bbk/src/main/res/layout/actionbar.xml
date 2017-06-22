@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:orientation="horizontal" >
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="right|center_vertical"
+        android:text="مدیریت فروشگاه"
+        android:textColor="#fff"
+        android:layout_margin="10dp"
+        android:textSize="18dp"
+        android:layout_weight="1"
+        android:textStyle="bold" >
+    </TextView>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:src="@drawable/ic_done"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        android:layout_gravity="center_vertical" />
+
+</LinearLayout>

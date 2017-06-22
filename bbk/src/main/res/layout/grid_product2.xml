@@ -6,83 +6,80 @@
     android:orientation="vertical"
     android:padding="5dp">
 
-    <com.aseman.bbk.RoundedCornerLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#f7ab17"
-        android:padding="0dp">
+        android:gravity="center_horizontal"
+        android:background="@drawable/rback"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:id="@+id/heg"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingRight="8dp"
+            android:paddingLeft="14dp"
+            android:background="@drawable/pic_place"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="90dp"
-                android:id="@+id/heg"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/gridview_image"
-                    android:layout_width="70dip"
-                    android:layout_height="70dip"
-                    android:background="@android:color/transparent"
-                    android:layout_marginTop="10dp"
-                    android:padding="5dp" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#fff"
-                android:orientation="vertical"
-                android:paddingBottom="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="5dp">
-
-                <TextView
-                    android:id="@+id/gridview_text1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical|right"
-                    android:text="Text1"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/gridview_text2"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/gridview_text1"
-                    android:layout_marginTop="15dp"
-                    android:gravity="center_vertical|right"
-                    android:text="Text1"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/gridview_text3"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/gridview_text2"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center_vertical|right"
-                    android:text="Text1"
-                    android:textSize="13sp" />
-            </LinearLayout>
-
-
+            <ImageView
+                android:id="@+id/gridview_image"
+                android:layout_width="80dip"
+                android:layout_height="80dip"
+                android:background="@android:color/transparent"
+                android:src="@drawable/hugh"/>
         </LinearLayout>
 
-    </com.aseman.bbk.RoundedCornerLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:id="@+id/gridview_text1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|right"
+                android:text="Text1"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/gridview_text2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/gridview_text1"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical|right"
+                android:text="Text1"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/gridview_text3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/gridview_text2"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical|right"
+                android:text="Text1"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="-6dip"
         android:background="@drawable/editc">
 
     <LinearLayout

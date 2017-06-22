@@ -2,25 +2,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ededee"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.aseman.bbk.HomeActivity$PlaceholderFragment">
 
-    <TextView
-        android:id="@+id/section_label"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/imageView3"
-        android:scaleType="fitXY"
-        android:adjustViewBounds="true"
-        android:src="@drawable/p1"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:background="#ededee"
+            android:scaleType="fitCenter"
+            android:src="@drawable/page1" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageView3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="-5dp"
+            android:text="بازار بزرگ کشاورزی ایران"
+            android:textColor="#8dcb7b"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/section_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:text="خرید و فروش انواع نهاده، لوله لوازم آبیاری ، ماشین آلات و ادوات، تجهیزات مرغداری، دامداری، زنبورداری و گلخانه"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

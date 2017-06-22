@@ -24,7 +24,7 @@ public class SendMail extends AppCompatActivity {
         /*************************************************** Set Custom ActionBar *****/
         getSupportActionBar().setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
-        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.base_color));
+//        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.base_color));
         View mCustomView = getSupportActionBar().getCustomView();
         TextView title = (TextView) mCustomView.findViewById(R.id.title);
         title.setText("ارسال ایمیل");

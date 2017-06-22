@@ -211,12 +211,12 @@ public class CallRest {
 	}
 
 	/******************************* Get Product List ********************************/
-	public List<Product> GetProducts(String para) throws Exception {
+	public List<Product> GetProducts(String para)  {
 		JSONObject jsonResponse;
 		List<Product> products = new ArrayList<Product>();
 
 		try {
-			String Content = CallAsync("products"+"");
+			String Content = Call("products"+"");
 			jsonResponse = new JSONObject(Content);
 			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
 //			JSONObject jsonChildNode = jsonMainNode.getJSONObject(0);

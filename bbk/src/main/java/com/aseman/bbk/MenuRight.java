@@ -1,7 +1,10 @@
 package com.aseman.bbk;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -29,7 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MenuRight extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    List<Product> products=new ArrayList<Product>();
+    static  List<Product> products=new ArrayList<Product>();
     ListAdapter listAdapter;
     GridView productsList;
     public static TextView name;
@@ -39,6 +43,7 @@ public class MenuRight extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_right);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(" بازار بزرگ کشاورزی ایران");
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -65,12 +70,44 @@ public class MenuRight extends AppCompatActivity
             });
 
 
-        CallRest cr = new CallRest();
-        try {
-            products = cr.GetProducts("?last=1");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        new AsyncTask<Integer, Integer, Boolean>() {
+            ProgressDialog progressDialog = null;
+            Dialog dialog=null;
+
+            @Override
+            protected void onPreExecute() {
+                //progressDialog = ProgressDialog.show(MenuRight.this, "", "در حال اتصال ...");
+                dialog = new Dialog(MenuRight.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+
+                dialog.setContentView(R.layout.dialog);
+                dialog.show();
+            }
+
+            @Override
+            protected Boolean doInBackground(Integer... params) {
+                CallRest cr=new CallRest();
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                products = cr.GetProducts("?last=1");
+                return  true;
+            }
+            protected void onPostExecute(Boolean result) {
+                //progressDialog.dismiss();
+                dialog.dismiss();
+            }
+
+        }.execute();
+
+//        try {
+//            products = cr.GetProducts("?last=1");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         ;
         Toast.makeText(this, CallRest.Error, Toast.LENGTH_LONG).show();
         ImageView imageButton = (ImageView) findViewById(R.id.imageView);
@@ -84,7 +121,7 @@ public class MenuRight extends AppCompatActivity
 
         });
 
-        CircleImageView sale=(CircleImageView) findViewById(R.id.tab1);
+        ImageView sale=(ImageView) findViewById(R.id.tab1);
         sale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +130,7 @@ public class MenuRight extends AppCompatActivity
             }
         });
 
-        CircleImageView buy=(CircleImageView) findViewById(R.id.tab2);
+        ImageView buy=(ImageView) findViewById(R.id.tab2);
         buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,7 +139,7 @@ public class MenuRight extends AppCompatActivity
             }
         });
 
-        CircleImageView prc=(CircleImageView) findViewById(R.id.tab3);
+        ImageView prc=(ImageView) findViewById(R.id.tab3);
         prc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,7 +148,7 @@ public class MenuRight extends AppCompatActivity
             }
         });
 
-        CircleImageView intro=(CircleImageView) findViewById(R.id.tab4);
+        ImageView intro=(ImageView) findViewById(R.id.tab4);
         intro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
