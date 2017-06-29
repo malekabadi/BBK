@@ -198,15 +198,18 @@ public class Introduction extends AppCompatActivity {
 
 
 
-        CallRest cr = new CallRest();
-        try {
-            sections = cr.GetSections("1");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        CallRest cr = new CallRest();
+//        try {
+//            sections = cr.GetSections("1");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         final ArrayList<String> Category = new ArrayList<String>();
-        for (Section i:sections)
-            Category.add(i.Title);
+        for (Section i:Splash.sections)
+            if (i.Parnet.equals("1")) {
+                Category.add(i.Title);
+                sections.add(i);
+            }
         final ListView lv = (ListView) layout.findViewById(R.id.list_topic);
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 R.layout.listview_item_row, Category);
@@ -235,15 +238,22 @@ public class Introduction extends AppCompatActivity {
                     SID = sections.get(position - 1).ID;
                     prevTitle = Title;
                     Title = sections.get(position - 1).Title;
-                    try {
-                        sections = cr.GetSections(SID);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+
+//                    try {
+//                        sections = cr.GetSections(SID);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
                     Category.clear();
+                    sections.clear();
                     Category.add("همه بخش ها");
-                    for (Section i : sections)
-                        Category.add(i.Title);
+                    for (Section i:Splash.sections)
+                        if (i.Parnet.equals(SID)) {
+                            Category.add(i.Title);
+                            sections.add(i);
+                        }
+//                    for (Section i : sections)
+//                        Category.add(i.Title);
                     adapter.notifyDataSetChanged();
                 }
                 if (sections.size()<1 || position<1) {

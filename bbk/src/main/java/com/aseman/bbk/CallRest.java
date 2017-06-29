@@ -368,12 +368,12 @@ public class CallRest {
 	}
 
 	/******************************* Get Section List ********************************/
-	public List<Section> GetSections(String parent) throws Exception {
+	public List<Section> GetSections(String parent)  {
 		JSONObject jsonResponse;
 		List<Section> sections = new ArrayList<Section>();
 
 		try {
-			String Content = CallAsync("sections?parent=" + parent);
+			String Content = Call("sections" + parent);
 			jsonResponse = new JSONObject(Content);
 			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
 
