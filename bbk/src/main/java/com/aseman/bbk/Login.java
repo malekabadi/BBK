@@ -46,8 +46,7 @@ public class Login extends AppCompatActivity {
 		phone = (EditText) findViewById(R.id.tel);
 		pass = (EditText) findViewById(R.id.pass);
 		logbtn = (Button) findViewById(R.id.button1);
-		sp = getSharedPreferences("share", 0);
-		String user = sp.getString("share", "");
+		sp = getSharedPreferences("share", MODE_PRIVATE);
 		Button Register = (Button) findViewById(R.id.Register);
 		Register.setOnClickListener(new OnClickListener() {
 
@@ -57,12 +56,6 @@ public class Login extends AppCompatActivity {
 				startActivity(new Intent(Login.this, Register.class));
 			}
 		});
-
-		if (!user.equals("")) // لاگین نگهداشتن کاربر
-		{
-			startActivity(new Intent(Login.this, MainActivity.class));
-			finish();
-		}
 	}
 
 	// لاگین کردن کاربر و بررسی اعتبار سنجی ورود اطلاعات
@@ -160,13 +153,12 @@ public class Login extends AppCompatActivity {
 				}
 				if (uid > 0) {
 					Toast.makeText(getApplicationContext(), "خوش آمدید", Toast.LENGTH_SHORT).show();
-					Editor editor = sp.edit();
-					editor.putString("phonekey", phone.getText().toString());
 					appVar.main.UserName = phone.getText().toString();
 					appVar.main.UserID = result;
-					// editor.apply();
-					// startActivity(new
-					// Intent(LoginActivity.this,MainActivity.class));
+					Editor editor = sp.edit();
+					editor.putString("UserName", phone.getText().toString());
+					editor.putString("UserID", appVar.main.UserID);
+					editor.commit();
 					logbtn.setEnabled(true);
 
 					progressDialog.dismiss();

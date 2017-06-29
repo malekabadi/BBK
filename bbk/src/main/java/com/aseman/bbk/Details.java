@@ -1,14 +1,18 @@
 package com.aseman.bbk;
 
 import android.Manifest;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -39,12 +43,30 @@ public class Details extends AppCompatActivity {
         if (extra != null)
             ID = extra.getString("PID");
 
-        CallRest cr = new CallRest();
-        try {
-            product = cr.GetProduct(ID);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        new AsyncTask<Integer, Integer, Boolean>() {
+            ProgressDialog progressDialog = null;
+            Dialog dialog=null;
+
+            @Override
+            protected void onPreExecute() {
+                //progressDialog = ProgressDialog.show(MenuRight.this, "", "در حال اتصال ...");
+                dialog = new Dialog(Details.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog);
+                dialog.show();
+            }
+
+            @Override
+            protected Boolean doInBackground(Integer... params) {
+                CallRest cr=new CallRest();
+                product = cr.GetProduct(ID);
+                return  true;
+            }
+            protected void onPostExecute(Boolean result) {
+                //progressDialog.dismiss();
+                dialog.dismiss();
+            }
+        }.execute();
 
         TextView title = (TextView) findViewById(R.id.title);
         title.setText(product.Title);

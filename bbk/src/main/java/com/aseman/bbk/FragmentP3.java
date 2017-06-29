@@ -22,9 +22,9 @@ public class FragmentP3 extends Fragment {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), MenuRight.class);
-                startActivity(i);
-
+//                Intent i = new Intent(getActivity(), MenuRight.class);
+//                startActivity(i);
+                getActivity().finish();
             }
         });
         return view;

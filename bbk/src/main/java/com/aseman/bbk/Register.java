@@ -31,7 +31,7 @@ public class Register extends AppCompatActivity {
 		TextView title = (TextView) mCustomView.findViewById(R.id.title);
 		title.setText("ایجاد حساب کاربری");
 
-		sp = getSharedPreferences("share", 0);
+		sp = getSharedPreferences("share", MODE_PRIVATE);
 	}
 
 	// ثبت نام وبررسی درست وارد کردن اطلاعات
@@ -84,8 +84,9 @@ public class Register extends AppCompatActivity {
 					appVar.main.UserName = phone.getText().toString();
 					//appVar.main.UserID = result.substring(2);
 					Editor editor = sp.edit();
-					editor.putString("phonekey", phone.getText().toString());
-					// editor.apply();
+					editor.putString("UserName", phone.getText().toString());
+					editor.putString("UserID", appVar.main.UserID);
+					editor.commit();
 					finish();
 				} else {
 					Toast.makeText(getApplicationContext(), result.Message ,

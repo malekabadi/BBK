@@ -1,10 +1,14 @@
 package com.aseman.bbk;
 
 import android.Manifest;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -32,7 +37,6 @@ public class Products extends AppCompatActivity {
     ListAdapter listAdapter;
     ListView productsList;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,17 +50,64 @@ public class Products extends AppCompatActivity {
         TextView title = (TextView) mCustomView.findViewById(R.id.title);
         title.setText("لیست کالاها");
 
+        new AsyncTask<Integer, Integer, Boolean>() {
+            ProgressDialog progressDialog = null;
+            Dialog dialog=null;
 
-        CallRest cr = new CallRest();
-        try {
-            products = cr.GetProducts("");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            @Override
+            protected void onPreExecute() {
+                //progressDialog = ProgressDialog.show(MenuRight.this, "", "در حال اتصال ...");
+                dialog = new Dialog(Products.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog);
+                dialog.show();
+            }
+
+            @Override
+            protected Boolean doInBackground(Integer... params) {
+                CallRest cr=new CallRest();
+                products = cr.GetProducts("");
+                return  true;
+            }
+            protected void onPostExecute(Boolean result) {
+                //progressDialog.dismiss();
+                listAdapter.notifyDataSetChanged();
+                dialog.dismiss();
+            }
+        }.execute();
 
         productsList = (ListView) findViewById(R.id.listView);
         listAdapter=new ListAdapter(this);
         productsList.setAdapter(listAdapter);
+
+        ImageView sale=(ImageView) findViewById(R.id.tab1);
+        sale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Products.this, Products.class);
+                startActivity(i);
+            }
+        });
+
+
+        ImageView prc=(ImageView) findViewById(R.id.tab3);
+        prc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Products.this, Price.class);
+                startActivity(i);
+            }
+        });
+
+        ImageView intro=(ImageView) findViewById(R.id.tab4);
+        intro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Products.this,Introduction.class);
+                startActivity(i);
+            }
+        });
+
 
     }
 //----------------------------------------------------------

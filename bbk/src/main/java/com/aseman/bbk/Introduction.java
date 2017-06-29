@@ -2,9 +2,11 @@ package com.aseman.bbk;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
@@ -54,13 +56,35 @@ public class Introduction extends AppCompatActivity {
         TextView title = (TextView) mCustomView.findViewById(R.id.title);
         title.setText("لیست شرکت ها");
 
+        new AsyncTask<Integer, Integer, Boolean>() {
+            ProgressDialog progressDialog = null;
+            Dialog dialog=null;
 
-        CallRest cr = new CallRest();
-        try {
-            comp = cr.GetCompanies("");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            @Override
+            protected void onPreExecute() {
+                //progressDialog = ProgressDialog.show(MenuRight.this, "", "در حال اتصال ...");
+                dialog = new Dialog(Introduction.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog);
+                dialog.show();
+            }
+
+            @Override
+            protected Boolean doInBackground(Integer... params) {
+                CallRest cr=new CallRest();
+                comp = cr.GetCompanies("");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return  true;
+            }
+            protected void onPostExecute(Boolean result) {
+                //progressDialog.dismiss();
+                dialog.dismiss();
+            }
+        }.execute();
 
         productsList = (GridView) findViewById(R.id.companyList);
         listAdapter=new ListAdapter(this);
@@ -73,7 +97,7 @@ public class Introduction extends AppCompatActivity {
             }
         });
 
-        Utility.setGridViewHeightBasedOnChildren(productsList,3);
+        if (comp.size() > 0 ) Utility.setGridViewHeightBasedOnChildren(productsList,3);
 //        Float density = this.getResources().getDisplayMetrics().density;
 //        ViewGroup.LayoutParams params = productsList.getLayoutParams();
 //        params.height = (int) (170 * density * listAdapter.getCount());

@@ -1,11 +1,16 @@
 package com.aseman.bbk;
 
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -37,6 +42,7 @@ public class MenuRight extends AppCompatActivity
     ListAdapter listAdapter;
     GridView productsList;
     public static TextView name;
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +58,29 @@ public class MenuRight extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        //---------------------------------------------- Check Login
+        sp = getSharedPreferences("share", MODE_PRIVATE);
+        appVar.main.Frist = sp.getString("Frist", "True");
+        if (appVar.main.Frist.equals("True"))
+        {
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("Frist", "False");
+            editor.commit();
+            Intent i=new Intent(MenuRight.this,HomeActivity.class);
+            startActivity(i);
+        }
+        appVar.main.UserName = sp.getString("UserName", "");
+        if (!appVar.main.UserName.equals(""))
+        {
+            SharedPreferences.Editor editor = sp.edit();
+            appVar.main.UserID = sp.getString("UserID", "");
+        }
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         View header=navigationView.getHeaderView(0);
         name = (TextView)header.findViewById(R.id.Name);
-        if (! appVar.main.UserName.equals("0")) {
+        if (! appVar.main.UserName.equals("")) {
             name.setText(appVar.main.UserName);
             navigationView.getMenu().findItem(R.id.nav_account).setEnabled(true);
         }
@@ -79,8 +102,6 @@ public class MenuRight extends AppCompatActivity
                 //progressDialog = ProgressDialog.show(MenuRight.this, "", "در حال اتصال ...");
                 dialog = new Dialog(MenuRight.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-
                 dialog.setContentView(R.layout.dialog);
                 dialog.show();
             }
@@ -88,11 +109,6 @@ public class MenuRight extends AppCompatActivity
             @Override
             protected Boolean doInBackground(Integer... params) {
                 CallRest cr=new CallRest();
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 products = cr.GetProducts("?last=1");
                 return  true;
             }
@@ -100,7 +116,6 @@ public class MenuRight extends AppCompatActivity
                 //progressDialog.dismiss();
                 dialog.dismiss();
             }
-
         }.execute();
 
 //        try {
@@ -115,8 +130,19 @@ public class MenuRight extends AppCompatActivity
 
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MenuRight.this, HomeActivity.class);
-                startActivity(i);
+//                Intent i = new Intent(MenuRight.this, HomeActivity.class);
+//                startActivity(i);
+                Notification.Builder mBuilder =  new Notification.Builder(MenuRight.this)
+                        .setSmallIcon(R.drawable.ic_launcher) // notification icon
+                        .setContentTitle("Notification!") // title for notification
+                        .setContentText("kelidestan.com") // message for notification
+                        .setAutoCancel(true); // clear notification after click
+                Intent intent = new Intent(MenuRight.this, MenuRight.class);
+                PendingIntent pi = PendingIntent.getActivity(MenuRight.this,0,intent,0);
+                mBuilder.setContentIntent(pi);
+                NotificationManager mNotificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.notify(0, mBuilder.build());
             }
 
         });
@@ -212,16 +238,16 @@ public class MenuRight extends AppCompatActivity
                     .tag(mContext) //
                     .into(img);
 
-            img.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View arg0) {
-                    // TODO Auto-generated method stub
-                    Intent i= new Intent(MenuRight.this,Details.class);
-                    i.putExtra("PID", products.get(position).ID);
-                    startActivity(i);
-                }
-            });
+//            img.setOnClickListener(new View.OnClickListener() {
+//
+//                @Override
+//                public void onClick(View arg0) {
+//                    // TODO Auto-generated method stub
+//                    Intent i= new Intent(MenuRight.this,Details.class);
+//                    i.putExtra("PID", products.get(position).ID);
+//                    startActivity(i);
+//                }
+//            });
 
             return gridViewAndroid;
         }
@@ -261,6 +287,9 @@ public class MenuRight extends AppCompatActivity
 
         } else if (id == R.id.nav_request) {
 
+        } else if (id == R.id.nav_exit) {
+            appVar.main.UserName="";
+            appVar.main.UserID="";
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

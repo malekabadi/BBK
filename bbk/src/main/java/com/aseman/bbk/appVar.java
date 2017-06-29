@@ -14,10 +14,10 @@ public class appVar {
 		public static final String POSITION   = "position";
 		public static final String List   = "List";
 		public static final String Third="third";
-		public static String UserID="1";
-		public static String UserName="0";
+		public static String UserID="";
+		public static String UserName="";
 		public static String UserKey="";
-		public static String ShopID="";
+		public static String Frist="True";
 		public static int Index=-1;
 	}
 	

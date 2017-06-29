@@ -185,7 +185,7 @@ public class CallRest {
 			HttpPost httpPost = new HttpPost("http://bbk-iran.com/webservice/preRegister");
 
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-			nameValuePairs.add(new BasicNameValuePair("email", username));
+			nameValuePairs.add(new BasicNameValuePair("username", username));
 			nameValuePairs.add(new BasicNameValuePair("password", password));
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
@@ -250,12 +250,12 @@ public class CallRest {
 	}
 
 	/******************************* Get Product ********************************/
-	public ProductDetail GetProduct(String ID) throws Exception {
+	public ProductDetail GetProduct(String ID) {
 		JSONObject jsonResponse;
 
 		ProductDetail product = new ProductDetail();
 		try {
-			String Content = CallAsync("product?id=" + ID);
+			String Content = Call("product?id=" + ID);
 			jsonResponse = new JSONObject(Content);
 			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
 
@@ -292,12 +292,12 @@ public class CallRest {
 	}
 
 	/****************************** Get Company List ********************************/
-	public List<Companies> GetCompanies(String SID) throws Exception {
+	public List<Companies> GetCompanies(String SID){
 		JSONObject jsonResponse;
 		List<Companies> brands = new ArrayList<Companies>();
 
 		try {
-			String Content = CallAsync("companies?sid="+SID);
+			String Content = Call("companies?sid="+SID);
 			jsonResponse = new JSONObject(Content);
 			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
 

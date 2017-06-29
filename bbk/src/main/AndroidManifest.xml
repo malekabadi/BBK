@@ -17,8 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MenuRight"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".Splash"
+            android:theme="@style/Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,8 +35,8 @@
         <activity android:name=".Price" />
         <activity android:name=".Introduction" />
         <activity
-            android:name=".Splash"
-            android:theme="@style/Fullscreen"/>
+            android:name=".MenuRight"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
