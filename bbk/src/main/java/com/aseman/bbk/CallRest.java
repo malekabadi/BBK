@@ -249,6 +249,36 @@ public class CallRest {
 		return products;
 	}
 
+	public List<Category> GetRequests(String para)  {
+		JSONObject jsonResponse;
+		List<Category> categories = new ArrayList<Category>();
+
+		try {
+			String Content = Call("request_cats"+para);
+			jsonResponse = new JSONObject(Content);
+			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
+//			JSONObject jsonChildNode = jsonMainNode.getJSONObject(0);
+//			if (jsonChildNode.optString("status").toString().equals("0"))
+//			{
+//				Error=jsonChildNode.optString("msg").toString();
+//				return  null;
+//			}
+			for (int i = 0; i < jsonMainNode.length(); i++) {
+				Category category = new Category();
+				/****** Get Object for each JSON node. ***********/
+				JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
+				category.ID = jsonChildNode.optString("id").toString();
+				category.Title = jsonChildNode.optString("title").toString();
+				categories.add(category);
+			}
+		} catch (JSONException e) {
+
+			e.printStackTrace();
+			return null;
+		}
+		return categories;
+	}
+
 	/******************************* Get Product ********************************/
 	public ProductDetail GetProduct(String ID) {
 		JSONObject jsonResponse;

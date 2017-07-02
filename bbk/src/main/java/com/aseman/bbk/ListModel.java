@@ -161,8 +161,13 @@ class Status {
     
     public  String Code="";
     public  String Message="";
-}    
+}
 
+class Category {
+
+    public  String ID="";
+    public  String Title="";
+}
 
 class Product {
 	

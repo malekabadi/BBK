@@ -1,25 +1,38 @@
 package com.aseman.bbk;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,10 +48,13 @@ public class Banner extends AppCompatActivity {
     public ArrayList<ImageView> iv=new ArrayList<ImageView>();
     public ArrayList<String> Files=new ArrayList<String>();
     List<ImageList> imgs=new ArrayList<ImageList>();
+    List<Category> categories=new ArrayList<Category>();
 
     private RecyclerView recyclerView;
     private AdapterSections mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    ListView inputList;
+    ListAdapter listAdapter;
 
     int index=0;
     @Override
@@ -65,9 +81,35 @@ public class Banner extends AppCompatActivity {
             }
         });
 
+        new AsyncTask<Integer, Integer, Boolean>() {
+            ProgressDialog progressDialog = null;
+            Dialog dialog=null;
+
+            @Override
+            protected void onPreExecute() {
+                //progressDialog = ProgressDialog.show(MenuRight.this, "", "در حال اتصال ...");
+                dialog = new Dialog(Banner.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog);
+                dialog.show();
+            }
+
+            @Override
+            protected Boolean doInBackground(Integer... params) {
+                CallRest cr=new CallRest();
+                categories = cr.GetRequests("");
+                return  true;
+            }
+            protected void onPostExecute(Boolean result) {
+                //progressDialog.dismiss();
+                listAdapter.notifyDataSetChanged();
+                Utility.setListViewHeightBasedOnChildren(inputList);
+                dialog.dismiss();
+            }
+        }.execute();
 
         String[] items = new String[] {"One", "Two", "Three"};
-        Spinner city = (Spinner) findViewById(R.id.txtCity);
+        Spinner city = (Spinner) findViewById(R.id.txtState);
 
         spinnerAdapter adapter = new spinnerAdapter(Banner.this, android.R.layout.simple_list_item_1);
         adapter.addAll(items);
@@ -82,10 +124,55 @@ public class Banner extends AppCompatActivity {
         mAdapter = new AdapterSections(imgs);
         recyclerView.setAdapter(mAdapter);
 
+        inputList = (ListView) findViewById(R.id.listView2);
+        listAdapter=new ListAdapter(this);
+        inputList.setAdapter(listAdapter);
+
+    }
+
+    //------------------------------------------------------------------------
+    public class ListAdapter extends BaseAdapter {
+
+        private Context mContext;
+        int Number=0;
+
+        public ListAdapter(Context c) {
+            mContext = c;
+        }
+
+        public int getCount() {
+            return categories.size();
+        }
+
+        public Object getItem(int position) {
+            return position;
+        }
+
+        public long getItemId(int position) {
+            return position;
+        }
+
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            View gridViewAndroid;
+            LayoutInflater inflater = (LayoutInflater) mContext
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            if (convertView == null) {;
+            } else {
+                gridViewAndroid = (View) convertView;
+            }
+
+            gridViewAndroid = new View(mContext);
+            gridViewAndroid = inflater.inflate(R.layout.listview_input, null);
+            EditText name = (EditText) gridViewAndroid.findViewById(R.id.editText);
+            name.setHint(categories.get(position).Title);
+
+            return gridViewAndroid;
+        }
+
+
     }
 
     //--------------------------------------------------------------------------
-
     private void selectImage() {
         final CharSequence[] options = { "گرفتن عکس با دوربین", "انتخاب از گالری","انصراف" };
         AlertDialog.Builder builder = new AlertDialog.Builder(Banner.this);
@@ -113,8 +200,8 @@ public class Banner extends AppCompatActivity {
         });
         builder.show();
     }
-    //------------------------------------------------------------------------------
 
+    //------------------------------------------------------------------------------
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
@@ -188,14 +275,15 @@ public class Banner extends AppCompatActivity {
             }
         }
     }
-    //------------------------------------------------------ Action Bar Menu
 
+    //------------------------------------------------------ Action Bar Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.action, menu);
         return true;
     }
+
     //-----------------------------
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -206,6 +294,7 @@ public class Banner extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     // -----------------------
 
 }

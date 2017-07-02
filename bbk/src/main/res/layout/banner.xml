@@ -1,4 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/scrollView"
+    android:layout_gravity="center_horizontal" >
+
+<LinearLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="fill"
@@ -37,30 +43,32 @@
 
     </android.support.design.widget.TextInputLayout>
 
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="40dp"
+        android:layoutDirection="rtl"
         android:orientation="horizontal">
 
         <Spinner
             android:id="@+id/type"
             android:layout_width="0dp"
             android:layout_height="35dp"
-            android:prompt="@string/app_name"
             android:layout_weight="1"
             android:gravity="center"
+            android:prompt="@string/app_name"
             android:textSize="12sp" />
 
         <Button
             android:id="@+id/addpic"
             android:layout_width="0dp"
             android:layout_height="35dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:background="#FCD705"
-            android:layout_marginRight="5dp"
-            android:textColor="#000"
             android:gravity="center"
-            android:text="افزودن عکس" />
+            android:text="افزودن عکس"
+            android:textColor="#000" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -98,32 +106,24 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="35dp">
 
-        <Spinner
-            android:id="@+id/txtState"
-            android:layout_width="0dp"
-            android:layout_height="37dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="4dip"
-            android:layout_weight="1"
-            android:prompt="@string/app_name"
-            android:textSize="12sp" />
+    <Spinner
+        android:id="@+id/txtState"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="4dip"
+        android:layoutDirection="rtl"
+        android:prompt="@string/app_name"
+        android:textSize="12sp" />
 
 
-        <Spinner
-            android:id="@+id/txtCity"
-            android:layout_width="0dp"
-            android:layout_height="37dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="4dip"
-            android:layout_weight="1"
-            android:prompt="@string/app_name"
-            android:textSize="12sp" />
-
-    </LinearLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView2"
+        android:layout_marginTop="4dip"
+        android:layout_gravity="center_horizontal" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -133,8 +133,8 @@
         <EditText
             android:id="@+id/desc"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
+            android:layout_height="140dp"
+            android:inputType="textMultiLine"
             android:hint="توضیحات" />
 
     </android.support.design.widget.TextInputLayout>
@@ -150,3 +150,5 @@
         android:textSize="16sp" />
 
 </LinearLayout>
+
+</ScrollView>
