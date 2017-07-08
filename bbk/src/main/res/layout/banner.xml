@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="rtl"
     android:id="@+id/scrollView"
     android:layout_gravity="center_horizontal" >
 
@@ -35,14 +36,26 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/price"
+            android:id="@+id/active"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="قیمت"
+            android:hint="زمینه فعالیت"
             android:textSize="14sp" />
 
     </android.support.design.widget.TextInputLayout>
 
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=" موقعیت مکانی"
+            android:textSize="14sp" />
+
+    </android.support.design.widget.TextInputLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"

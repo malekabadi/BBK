@@ -216,7 +216,7 @@ public class CallRest {
 		List<Product> products = new ArrayList<Product>();
 
 		try {
-			String Content = Call("products"+"");
+			String Content = Call("products"+para);
 			jsonResponse = new JSONObject(Content);
 			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
 //			JSONObject jsonChildNode = jsonMainNode.getJSONObject(0);
@@ -249,7 +249,49 @@ public class CallRest {
 		return products;
 	}
 
-	public List<Category> GetRequests(String para)  {
+	public List<Request> GetRequests(String para)  {
+		JSONObject jsonResponse;
+		List<Request> requests = new ArrayList<Request>();
+
+		try {
+			String Content = Call("requests"+para);
+			jsonResponse = new JSONObject(Content);
+			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
+//			JSONObject jsonChildNode = jsonMainNode.getJSONObject(0);
+//			if (jsonChildNode.optString("status").toString().equals("0"))
+//			{
+//				Error=jsonChildNode.optString("msg").toString();
+//				return  null;
+//			}
+			for (int i = 0; i < jsonMainNode.length(); i++) {
+				Request request = new Request();
+				/****** Get Object for each JSON node. ***********/
+				JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
+				request.ID = jsonChildNode.optString("id").toString();
+				request.Title = jsonChildNode.optString("field1").toString();
+				request.CatID = jsonChildNode.optString("cat_id").toString();
+				request.Content = jsonChildNode.optString("content").toString();
+				request.UserID = jsonChildNode.optString("user_id").toString();
+				request.UserName = jsonChildNode.optString("user_name").toString();
+				request.Location = jsonChildNode.optString("location").toString();
+				request.Activity = jsonChildNode.optString("activity").toString();
+				request.Tel = jsonChildNode.optString("tel").toString();
+				request.URL = jsonChildNode.optString("url").toString();
+				request.Expired = jsonChildNode.optString("expired").toString();
+				request.Field1 = jsonChildNode.optString("field1").toString();
+				request.Field2 = jsonChildNode.optString("field2").toString();
+				request.Field3 = jsonChildNode.optString("field3").toString();
+				requests.add(request);
+			}
+		} catch (JSONException e) {
+
+			e.printStackTrace();
+			return null;
+		}
+		return requests;
+	}
+
+	public List<Category> GetCategory(String para)  {
 		JSONObject jsonResponse;
 		List<Category> categories = new ArrayList<Category>();
 
@@ -277,6 +319,35 @@ public class CallRest {
 			return null;
 		}
 		return categories;
+	}
+
+	public Category GetFields(String para)  {
+		JSONObject jsonResponse;
+		Category Fileds = new Category();
+		try {
+			String Content = Call("request_cats"+para);
+			jsonResponse = new JSONObject(Content);
+			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
+			for (int i = 0; i < jsonMainNode.length(); i++) {
+				/****** Get Object for each JSON node. ***********/
+				JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
+				Fileds.ID = jsonChildNode.optString("id").toString();
+				Fileds.Title = jsonChildNode.optString("title").toString();
+				if (jsonChildNode.optString("field1").length()>2) Fileds.Fields.add(jsonChildNode.optString("field1").toString());
+				if (jsonChildNode.optString("field2").length()>2) Fileds.Fields.add(jsonChildNode.optString("field2").toString());
+				if (jsonChildNode.optString("field3").length()>2) Fileds.Fields.add(jsonChildNode.optString("field3").toString());
+				if (jsonChildNode.optString("field4").length()>2) Fileds.Fields.add(jsonChildNode.optString("field4").toString());
+				if (jsonChildNode.optString("field5").length()>2) Fileds.Fields.add(jsonChildNode.optString("field5").toString());
+				if (jsonChildNode.optString("field6").length()>2) Fileds.Fields.add(jsonChildNode.optString("field6").toString());
+				if (jsonChildNode.optString("field7").length()>2) Fileds.Fields.add(jsonChildNode.optString("field7").toString());
+				if (jsonChildNode.optString("field8").length()>2) Fileds.Fields.add(jsonChildNode.optString("field8").toString());
+			}
+		} catch (JSONException e) {
+
+			e.printStackTrace();
+			return null;
+		}
+		return Fileds;
 	}
 
 	/******************************* Get Product ********************************/
@@ -425,49 +496,10 @@ public class CallRest {
 		}
 		return sections;
 	}
-	/*************************************  Save User Profile ***********************************/
-	public String SaveBanner(String name, String price, String type, String email, String mobile, String location,String content) {
-
-		try {
-
-			// Create the POST object and add the parameters
-			HttpPost httpPost = new HttpPost("http://webservice.ferzmarket.com/Register");
-
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-			nameValuePairs.add(new BasicNameValuePair("name", name));
-			nameValuePairs.add(new BasicNameValuePair("price", price));
-			nameValuePairs.add(new BasicNameValuePair("email", email));
-			nameValuePairs.add(new BasicNameValuePair("tel", mobile));
-			nameValuePairs.add(new BasicNameValuePair("location", location));
-			nameValuePairs.add(new BasicNameValuePair("type", type));
-			nameValuePairs.add(new BasicNameValuePair("content", content));
-			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-			HttpClient httpClient = new DefaultHttpClient();
-			HttpResponse httpResponse = httpClient.execute(httpPost);
-			HttpEntity httpEntity = httpResponse.getEntity();
-			InputStream stream = httpEntity.getContent();
-
-			// Convert the stream to readable format
-			String result = convertStreamToString(stream);
-			JSONObject jsonResponse = new JSONObject(result);
-			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
-
-			/****** Get Object for each JSON node. ***********/
-			JSONObject jsonChildNode = jsonMainNode.getJSONObject(0);
-			return jsonChildNode.optString("uid").toString();
-		} catch (Exception e) {
-			return null;
-		}
-
-	}
-
-
-
 
 	/*************************************  Save User Profile ***********************************/
-	public String SaveProfile(String name,String pass,String email,String mobile,String tel,
-				String gender,String state,String city,String address,String pcode,String newsletter) throws Exception {
+	public String SaveBanner(String name,String mode,String period,String activity,String location,
+				String tel,String content,String category,String[] fields) throws Exception {
 
 		String bnds = new AsyncTask<String, Void, String>() {
 			@Override
@@ -479,19 +511,23 @@ public class CallRest {
 				try {
 
 					// Create the POST object and add the parameters
-					HttpPost httpPost = new HttpPost("http://webservice.ferzmarket.com/Register");
+					HttpPost httpPost = new HttpPost("http://bbk-iran.com/webservice/new_ad");
 
 					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-					nameValuePairs.add(new BasicNameValuePair("full_name", params[0]));
-					nameValuePairs.add(new BasicNameValuePair("password", params[1]));
-					nameValuePairs.add(new BasicNameValuePair("email", params[2]));
-					nameValuePairs.add(new BasicNameValuePair("mobile", params[3]));
-					nameValuePairs.add(new BasicNameValuePair("tel", params[4]));
-					nameValuePairs.add(new BasicNameValuePair("gender", params[5]));
-					nameValuePairs.add(new BasicNameValuePair("state", params[6]));
-					nameValuePairs.add(new BasicNameValuePair("city", params[7]));
-					nameValuePairs.add(new BasicNameValuePair("pcode", params[8]));
-					nameValuePairs.add(new BasicNameValuePair("newsletter", params[9]));
+					nameValuePairs.add(new BasicNameValuePair("name", params[0]));
+					nameValuePairs.add(new BasicNameValuePair("mode", params[1]));
+					nameValuePairs.add(new BasicNameValuePair("period", params[2]));
+					nameValuePairs.add(new BasicNameValuePair("activity", params[3]));
+					nameValuePairs.add(new BasicNameValuePair("location", params[4]));
+					nameValuePairs.add(new BasicNameValuePair("tel", params[5]));
+					nameValuePairs.add(new BasicNameValuePair("content", params[6]));
+					nameValuePairs.add(new BasicNameValuePair("category", params[7]));
+					nameValuePairs.add(new BasicNameValuePair("field1", params[8]));
+					nameValuePairs.add(new BasicNameValuePair("field2", params[9]));
+					nameValuePairs.add(new BasicNameValuePair("field3", params[9]));
+					nameValuePairs.add(new BasicNameValuePair("field4", params[9]));
+					nameValuePairs.add(new BasicNameValuePair("field5", params[9]));
+					nameValuePairs.add(new BasicNameValuePair("field6", params[9]));
 					httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 					HttpClient httpClient = new DefaultHttpClient();
@@ -515,9 +551,13 @@ public class CallRest {
 			@Override
 			protected void onPostExecute(String result) {
 			}
-		}.execute(name,pass,email,mobile,tel,gender,state,city,pcode,newsletter).get();
+		}.execute(name,mode,period,activity,tel,location,tel,content,category,fields[1],
+				fields[2],fields[3],fields[4],fields[5],fields[6]).get();
 		return bnds;
 	}
+
+
+
 
 	/******************************* Get User Profile With ID ********************************/
 	public UserProfile LoadProfile(String ID) throws Exception {
@@ -635,126 +675,6 @@ public class CallRest {
 			return null;
 		}
 		return products;
-	}
-
-	/******************************* Get Order List Of Company ********************************/
-	public List<Order> GetOrders(String CID) throws Exception {
-		JSONObject jsonResponse;
-		List<Order> orders = new ArrayList<Order>();
-
-		try {
-			String Content = Call("orders?cid=" + CID + "&MDU=" + appVar.main.UserKey);
-			jsonResponse = new JSONObject(Content);
-			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
-
-			for (int i = 0; i < jsonMainNode.length(); i++) {
-				Order order = new Order();
-				/****** Get Object for each JSON node. ***********/
-				JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
-				order.ID = jsonChildNode.optString("id").toString();
-				order.OrderDate = jsonChildNode.optString("order_date").toString();
-				order.TrackNum = jsonChildNode.optString("tracking_number").toString();
-				order.InvoiceNum = jsonChildNode.optString("invoice_number").toString();
-				order.Status = jsonChildNode.optString("status").toString();
-				order.Total = jsonChildNode.optString("total_price").toString();
-				orders.add(order);
-			}
-		} catch (JSONException e) {
-
-			e.printStackTrace();
-			return null;
-		}
-		return orders;
-	}
-
-	/******************************* Get Order List Of Company ********************************/
-	public List<OrderDetail> GetOrderDetail(String CID,String ID) throws Exception {
-		JSONObject jsonResponse;
-		List<OrderDetail> orders = new ArrayList<OrderDetail>();
-
-		try {
-			String Content = CallAsync("order?cid=" + CID + "&id=" + ID + "&MDU=" + appVar.main.UserKey);
-			jsonResponse = new JSONObject(Content);
-			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
-
-			for (int i = 0; i < jsonMainNode.length(); i++) {
-				OrderDetail order = new OrderDetail();
-				/****** Get Object for each JSON node. ***********/
-				JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
-				order.ProID = jsonChildNode.optString("product_id").toString();
-				order.ProName = jsonChildNode.optString("product_name").toString();
-				order.InvNo = jsonChildNode.optString("product_sku").toString();
-				order.Count = jsonChildNode.optString("product_quantity").toString();
-				order.Price = jsonChildNode.optString("product_price").toString();
-				order.Total = jsonChildNode.optString("final_price").toString();
-				orders.add(order);
-			}
-		} catch (JSONException e) {
-
-			e.printStackTrace();
-			return null;
-		}
-		return orders;
-	}
-
-	/******************************* Get Invoice List Of Company ********************************/
-	public List<Invoice> GetInvoices(String CID) throws Exception {
-		JSONObject jsonResponse;
-		List<Invoice> invoices = new ArrayList<Invoice>();
-
-		try {
-			String Content = Call("invoices?cid=" + CID + "&MDU=" + appVar.main.UserKey);
-			jsonResponse = new JSONObject(Content);
-			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
-
-			for (int i = 0; i < jsonMainNode.length(); i++) {
-				Invoice invoice = new Invoice();
-				/****** Get Object for each JSON node. ***********/
-				JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
-				invoice.ID = jsonChildNode.optString("id").toString();
-				invoice.InvoiceDate = jsonChildNode.optString("invoice_date").toString();
-				invoice.Amount = jsonChildNode.optString("amount").toString();
-				invoice.InvoiceNum = jsonChildNode.optString("invoice_number").toString();
-				invoice.Status = jsonChildNode.optString("status").toString();
-				invoice.OrderID = jsonChildNode.optString("order_id").toString();
-				invoice.TransactionDate = jsonChildNode.optString("transaction_date").toString();
-				invoice.Tref = jsonChildNode.optString("tref").toString();
-				invoices.add(invoice);
-			}
-		} catch (JSONException e) {
-
-			e.printStackTrace();
-			return null;
-		}
-		return invoices;
-	}
-
-	/******************************* Get Invoice Of ID ********************************/
-	public Invoice GetInvoice(String ID) throws Exception {
-		JSONObject jsonResponse;
-		
-		Invoice invoice = new Invoice();
-
-		try {
-			String Content = Call("invoices?id=" + ID + "&MDU=" + appVar.main.UserKey);
-			jsonResponse = new JSONObject(Content);
-			JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
-
-				/****** Get Object for each JSON node. ***********/
-				JSONObject jsonChildNode = jsonMainNode.getJSONObject(0);
-				invoice.ID = jsonChildNode.optString("id").toString();
-				invoice.InvoiceDate = jsonChildNode.optString("invoice_date").toString();
-				invoice.Amount = jsonChildNode.optString("amount").toString();
-				invoice.InvoiceNum = jsonChildNode.optString("invoice_number").toString();
-				invoice.Status = jsonChildNode.optString("status").toString();
-				invoice.OrderID = jsonChildNode.optString("order_id").toString();
-				
-		} catch (JSONException e) {
-
-			e.printStackTrace();
-			return null;
-		}
-		return invoice;
 	}
 
 	/******************************* Search ********************************/

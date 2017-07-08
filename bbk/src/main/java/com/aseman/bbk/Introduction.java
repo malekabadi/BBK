@@ -47,7 +47,6 @@ public class Introduction extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         /*************************************************** Set Custom ActionBar *****/
         getSupportActionBar().setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
@@ -56,35 +55,7 @@ public class Introduction extends AppCompatActivity {
         TextView title = (TextView) mCustomView.findViewById(R.id.title);
         title.setText("لیست شرکت ها");
 
-        new AsyncTask<Integer, Integer, Boolean>() {
-            ProgressDialog progressDialog = null;
-            Dialog dialog=null;
-
-            @Override
-            protected void onPreExecute() {
-                //progressDialog = ProgressDialog.show(MenuRight.this, "", "در حال اتصال ...");
-                dialog = new Dialog(Introduction.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialog);
-                dialog.show();
-            }
-
-            @Override
-            protected Boolean doInBackground(Integer... params) {
-                CallRest cr=new CallRest();
-                comp = cr.GetCompanies("");
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                return  true;
-            }
-            protected void onPostExecute(Boolean result) {
-                //progressDialog.dismiss();
-                dialog.dismiss();
-            }
-        }.execute();
+        new LongOperation().execute("");
 
         productsList = (GridView) findViewById(R.id.companyList);
         listAdapter=new ListAdapter(this);
@@ -98,13 +69,37 @@ public class Introduction extends AppCompatActivity {
         });
 
         if (comp.size() > 0 ) Utility.setGridViewHeightBasedOnChildren(productsList,3);
-//        Float density = this.getResources().getDisplayMetrics().density;
-//        ViewGroup.LayoutParams params = productsList.getLayoutParams();
-//        params.height = (int) (170 * density * listAdapter.getCount());
-//        productsList.setLayoutParams(params);
-
     }
 
+    //----------------------------------------------------------
+    private class LongOperation extends AsyncTask<String, Integer, Boolean> {
+        ProgressDialog progressDialog = null;
+        Dialog dialog=null;
+
+        @Override
+        protected void onPreExecute() {
+            //progressDialog = ProgressDialog.show(MenuRight.this, "", "در حال اتصال ...");
+            dialog = new Dialog(Introduction.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+
+            dialog.setContentView(R.layout.dialog);
+            dialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            CallRest cr=new CallRest();
+            comp = cr.GetCompanies(params[0]);
+            return  true;
+        }
+        protected void onPostExecute(Boolean result) {
+            listAdapter.notifyDataSetChanged();
+            dialog.dismiss();
+        }
+
+
+    }
     //--------------------------------------------------------------------------------------
     public class ListAdapter extends BaseAdapter {
 
@@ -227,7 +222,7 @@ public class Introduction extends AppCompatActivity {
 
         popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
-        Category.add(0,"همه بخش ها");
+        Category.add(0,"همه بخش ها");SID="";Title="همه بخش ها";
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -259,7 +254,7 @@ public class Introduction extends AppCompatActivity {
                 if (sections.size()<1 || position<1) {
                     popup.dismiss();
                     try {
-                        comp = cr.GetCompanies(SID);
+                        new LongOperation().execute(SID);
                         listAdapter.notifyDataSetChanged();
                         sec.setText(Title);
 

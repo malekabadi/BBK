@@ -22,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -39,10 +40,12 @@ public class MenuRight extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     static  List<Product> products=new ArrayList<Product>();
+    static  List<Product> more=new ArrayList<Product>();
     ListAdapter listAdapter;
     GridView productsList;
     public static TextView name;
     SharedPreferences sp;
+    int lastItemPosition=0,page=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,19 +133,19 @@ public class MenuRight extends AppCompatActivity
 
             @Override
             public void onClick(View view) {
-//                Intent i = new Intent(MenuRight.this, HomeActivity.class);
-//                startActivity(i);
-                Notification.Builder mBuilder =  new Notification.Builder(MenuRight.this)
-                        .setSmallIcon(R.drawable.ic_launcher) // notification icon
-                        .setContentTitle("Notification!") // title for notification
-                        .setContentText("kelidestan.com") // message for notification
-                        .setAutoCancel(true); // clear notification after click
-                Intent intent = new Intent(MenuRight.this, MenuRight.class);
-                PendingIntent pi = PendingIntent.getActivity(MenuRight.this,0,intent,0);
-                mBuilder.setContentIntent(pi);
-                NotificationManager mNotificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                mNotificationManager.notify(0, mBuilder.build());
+                Intent i = new Intent(MenuRight.this, HomeActivity.class);
+                startActivity(i);
+//                Notification.Builder mBuilder =  new Notification.Builder(MenuRight.this)
+//                        .setSmallIcon(R.drawable.ic_launcher) // notification icon
+//                        .setContentTitle("Notification!") // title for notification
+//                        .setContentText("kelidestan.com") // message for notification
+//                        .setAutoCancel(true); // clear notification after click
+//                Intent intent = new Intent(MenuRight.this, MenuRight.class);
+//                PendingIntent pi = PendingIntent.getActivity(MenuRight.this,0,intent,0);
+//                mBuilder.setContentIntent(pi);
+//                NotificationManager mNotificationManager =
+//                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//                mNotificationManager.notify(0, mBuilder.build());
             }
 
         });
@@ -160,7 +163,7 @@ public class MenuRight extends AppCompatActivity
         buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MenuRight.this, Products.class);
+                Intent i = new Intent(MenuRight.this, ShowBanners.class);
                 startActivity(i);
             }
         });
@@ -187,7 +190,62 @@ public class MenuRight extends AppCompatActivity
         listAdapter=new ListAdapter(this);
         productsList.setAdapter(listAdapter);
 
+        productsList.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                int lastItem = firstVisibleItem + visibleItemCount;
+                if (listAdapter.getCount() >= 10 && lastItem > listAdapter.getCount() - 1) {
+                    boolean isLoading = false;
+                    if (!isLoading) {
+                        // if(readNetworkStatus(context)){
+                        if (lastItem > lastItemPosition) {
+                            Toast.makeText(MenuRight.this, "loading...", Toast.LENGTH_LONG).show();
+                            lastItemPosition = listAdapter.getCount();
+                            page++;
+                            new LongOperation2().execute("?page="+String.valueOf(page));
+                        }
+                        // }
+                        isLoading = true;
+                    }
+                }
+            }
+            public void onScrollStateChanged(AbsListView view, int scrollState) {}
+
+        });
+
     }
+    //----------------------------------------------------------
+    private class LongOperation2 extends AsyncTask<String, Integer, Boolean> {
+        ProgressDialog progressDialog = null;
+        Dialog dialog=null;
+
+        @Override
+        protected void onPreExecute() {
+            //progressDialog = ProgressDialog.show(MenuRight.this, "", "در حال اتصال ...");
+            dialog = new Dialog(MenuRight.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+
+            dialog.setContentView(R.layout.dialog);
+            dialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            CallRest cr=new CallRest();
+            more = cr.GetProducts(params[0]);
+            return  true;
+        }
+        protected void onPostExecute(Boolean result) {
+            products.addAll(more);
+            listAdapter.notifyDataSetChanged();
+            dialog.dismiss();
+        }
+
+
+    }
+
     //------------------------------------------------------------------------
     public class ListAdapter extends BaseAdapter {
 

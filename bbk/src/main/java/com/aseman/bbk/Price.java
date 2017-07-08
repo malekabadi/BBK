@@ -48,13 +48,12 @@ public class Price extends AppCompatActivity {
 	CustomAdapter adapter;
 	public  Price CustomListView = null;
     public  ArrayList<ListModel> CustomListViewValuesArr = new ArrayList<ListModel>();
-    
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_price);
 		CustomListView = this;
-
         /*************************************************** Set Custom ActionBar *****/
         getSupportActionBar().setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);

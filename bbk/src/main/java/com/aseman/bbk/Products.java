@@ -1,30 +1,39 @@
 package com.aseman.bbk;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -34,14 +43,19 @@ import java.util.List;
 public class Products extends AppCompatActivity {
 
     List<Product> products=new ArrayList<Product>();
+    List<Product> more=new ArrayList<Product>();
     ListAdapter listAdapter;
     ListView productsList;
+    TextView sec;
+    List<Section> sections = new ArrayList<Section>();
+    List<Companies> comp=new ArrayList<Companies>();
+    String SID="",Title="همه بخش ها",prevTitle="";
+    int lastItemPosition=0,page=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products);
-
         /*************************************************** Set Custom ActionBar *****/
         getSupportActionBar().setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
@@ -50,45 +64,55 @@ public class Products extends AppCompatActivity {
         TextView title = (TextView) mCustomView.findViewById(R.id.title);
         title.setText("لیست کالاها");
 
-        new AsyncTask<Integer, Integer, Boolean>() {
-            ProgressDialog progressDialog = null;
-            Dialog dialog=null;
 
-            @Override
-            protected void onPreExecute() {
-                //progressDialog = ProgressDialog.show(MenuRight.this, "", "در حال اتصال ...");
-                dialog = new Dialog(Products.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialog);
-                dialog.show();
-            }
-
-            @Override
-            protected Boolean doInBackground(Integer... params) {
-                CallRest cr=new CallRest();
-                products = cr.GetProducts("");
-                return  true;
-            }
-            protected void onPostExecute(Boolean result) {
-                //progressDialog.dismiss();
-                listAdapter.notifyDataSetChanged();
-                dialog.dismiss();
-            }
-        }.execute();
+        new LongOperation().execute("");
 
         productsList = (ListView) findViewById(R.id.listView);
         listAdapter=new ListAdapter(this);
         productsList.setAdapter(listAdapter);
 
-        ImageView sale=(ImageView) findViewById(R.id.tab1);
-        sale.setOnClickListener(new View.OnClickListener() {
+
+        productsList.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                int lastItem = firstVisibleItem + visibleItemCount;
+                if (listAdapter.getCount() >= 10 && lastItem > listAdapter.getCount() - 1) {
+                    boolean isLoading = false;
+                    if (!isLoading) {
+                        // if(readNetworkStatus(context)){
+                        if (lastItem > lastItemPosition) {
+                            Toast.makeText(Products.this, "loading...", Toast.LENGTH_LONG).show();
+                            lastItemPosition = listAdapter.getCount();
+                            page++;
+                            new LongOperation2().execute("?page="+String.valueOf(page));
+                        }
+                        // }
+                        isLoading = true;
+                    }
+                }
+            }
+            public void onScrollStateChanged(AbsListView view, int scrollState) {}
+
+        });
+
+        sec = (TextView) findViewById(R.id.section);
+        sec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Products.this, Products.class);
-                startActivity(i);
+                showPopup(Products.this);
             }
         });
 
+        ImageView buy=(ImageView) findViewById(R.id.tab2);
+        buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Products.this, ShowBanners.class);
+                startActivity(i);
+                finish();
+            }
+        });
 
         ImageView prc=(ImageView) findViewById(R.id.tab3);
         prc.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +120,7 @@ public class Products extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(Products.this, Price.class);
                 startActivity(i);
+                finish();
             }
         });
 
@@ -105,12 +130,73 @@ public class Products extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(Products.this,Introduction.class);
                 startActivity(i);
+                finish();
             }
         });
 
+    }
+
+    //----------------------------------------------------------
+    private class LongOperation extends AsyncTask<String, Integer, Boolean> {
+        ProgressDialog progressDialog = null;
+        Dialog dialog=null;
+
+        @Override
+        protected void onPreExecute() {
+            //progressDialog = ProgressDialog.show(MenuRight.this, "", "در حال اتصال ...");
+            dialog = new Dialog(Products.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+
+            dialog.setContentView(R.layout.dialog);
+            dialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            CallRest cr=new CallRest();
+            products = cr.GetProducts(params[0]);
+            return  true;
+        }
+        protected void onPostExecute(Boolean result) {
+            listAdapter.notifyDataSetChanged();
+            dialog.dismiss();
+        }
+
 
     }
-//----------------------------------------------------------
+    //----------------------------------------------------------
+    private class LongOperation2 extends AsyncTask<String, Integer, Boolean> {
+        ProgressDialog progressDialog = null;
+        Dialog dialog=null;
+
+        @Override
+        protected void onPreExecute() {
+            //progressDialog = ProgressDialog.show(MenuRight.this, "", "در حال اتصال ...");
+            dialog = new Dialog(Products.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+
+            dialog.setContentView(R.layout.dialog);
+            dialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            CallRest cr=new CallRest();
+            more = cr.GetProducts(params[0]);
+            return  true;
+        }
+        protected void onPostExecute(Boolean result) {
+            products.addAll(more);
+            listAdapter.notifyDataSetChanged();
+            dialog.dismiss();
+        }
+
+
+    }
+
+    //----------------------------------------------------------
     public class ListAdapter extends BaseAdapter {
 
         private Context mContext;
@@ -185,7 +271,7 @@ public class Products extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         String message="";
-                        String phoneNumber="0915";
+                        String phoneNumber=products.get(position).Phones;
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + phoneNumber));
                         intent.putExtra("sms_body", message);
                         startActivity(intent);
@@ -195,7 +281,7 @@ public class Products extends AppCompatActivity {
                 tel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String uri = "tel:" + "0915" ;
+                        String uri = "tel:" + products.get(position).Phones; ;
                         Intent phoneIntent = new Intent(Intent.ACTION_CALL);
                         phoneIntent.setData(Uri.parse(uri));
                         if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
@@ -263,6 +349,84 @@ public class Products extends AppCompatActivity {
             return gridViewAndroid;
         }
 
+
+    }
+
+    //------------------------------------------------------------
+    private void showPopup(final Activity context) {
+
+//        final Dialog dialog = new Dialog(context);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.setContentView(R.layout.popup);
+//        dialog.show();
+
+        Display display = getWindowManager().getDefaultDisplay();
+        int popupWidth = display.getWidth();//-(int)(display.getWidth()*0.2);
+        int popupHeight = display.getHeight();//-(int)(display.getWidth()*0.6);
+
+        RelativeLayout viewGroup = (RelativeLayout) context.findViewById(R.id.popup);
+        LayoutInflater layoutInflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = layoutInflater.inflate(R.layout.popup, viewGroup);
+
+
+
+        final ArrayList<String> Category = new ArrayList<String>();
+        for (Section i:Splash.sections)
+            if (i.Parnet.equals("1")) {
+                Category.add(i.Title);
+                sections.add(i);
+            }
+        final ListView lv = (ListView) layout.findViewById(R.id.list_topic);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                R.layout.listview_item_row, Category);
+        lv.setAdapter(adapter);
+
+
+        final PopupWindow popup = new PopupWindow(context);
+        popup.setContentView(layout);
+        popup.setWidth(popupWidth);
+        popup.setHeight(popupHeight);
+        popup.setFocusable(true);
+
+        popup.setBackgroundDrawable(new ColorDrawable(0xa0000000));
+        popup.getContentView().setBackgroundResource(android.R.color.transparent);
+
+        popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+        Category.add(0,"همه بخش ها");
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                if (position>0) {
+                    SID = sections.get(position - 1).ID;
+                    prevTitle = Title;
+                    Title = sections.get(position - 1).Title;
+
+                    Category.clear();
+                    sections.clear();
+                    Category.add("همه بخش ها");
+                    for (Section i:Splash.sections)
+                        if (i.Parnet.equals(SID)) {
+                            Category.add(i.Title);
+                            sections.add(i);
+                        }
+                    adapter.notifyDataSetChanged();
+                }
+                if (sections.size()<1 || position<1) {
+                    popup.dismiss();
+                    try {
+                        new LongOperation().execute("?sid="+SID);
+                        sec.setText(Title);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
 
     }
 

@@ -13,16 +13,20 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceActivity;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,8 +35,17 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Request;
+
+import cz.msebera.android.httpclient.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -42,19 +55,25 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class Banner extends AppCompatActivity {
 
     public ArrayList<ImageView> iv=new ArrayList<ImageView>();
-    public ArrayList<String> Files=new ArrayList<String>();
+    public ArrayList<String> items=new ArrayList<String>();
     List<ImageList> imgs=new ArrayList<ImageList>();
     List<Category> categories=new ArrayList<Category>();
+    String[] edits=new String[8];
+    Category fields=new Category();
 
     private RecyclerView recyclerView;
     private AdapterSections mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     ListView inputList;
     ListAdapter listAdapter;
+    spinnerAdapter adapter;
+    final int KeyGallery = 100, ReadExternalRequestCode = 200; // کلید ها برای باز کردن گالری و دریافت دسترسی ها
+    String url = "http://192.168.1.104/"; // آدرس وب سرورتون (چون من محلی تست کردم آی پی کامپیوترم هست.)
 
     int index=0;
     @Override
@@ -81,6 +100,36 @@ public class Banner extends AppCompatActivity {
             }
         });
 
+        Button btnReg = (Button) findViewById(R.id.btnReg);
+        btnReg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText _title=(EditText) findViewById(R.id.title);String title=_title.getText().toString();
+                EditText _active=(EditText) findViewById(R.id.active);String active=_active.getText().toString();
+                EditText _location=(EditText) findViewById(R.id.location);String location=_location.getText().toString();
+                EditText _email=(EditText) findViewById(R.id.email);String email=_email.getText().toString();
+                EditText _mobile=(EditText) findViewById(R.id.mobile);String mobile=_mobile.getText().toString();
+                EditText _desc=(EditText) findViewById(R.id.desc);String desc=_desc.getText().toString();
+                Spinner _cate=(Spinner) findViewById(R.id.txtState);String cate=_cate.getSelectedItem().toString();
+                Spinner _type=(Spinner) findViewById(R.id.type);int i=_type.getSelectedItemPosition();String type= String.valueOf(i);
+                String period="";
+                try {
+                    new CallRest().SaveBanner(title,type,period,active,location,mobile,desc,cate,edits);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        String[] Typeitems = new String[] {"رایگان", "ویژه"};
+        Spinner type = (Spinner) findViewById(R.id.type);
+        spinnerAdapter adapter1 = new spinnerAdapter(Banner.this, android.R.layout.simple_list_item_1);
+        adapter1.addAll(Typeitems);
+        type.setAdapter(adapter1);
+        //type.setSelection(adapter1.getCount());
+
+
+            final Spinner city = (Spinner) findViewById(R.id.txtState);
         new AsyncTask<Integer, Integer, Boolean>() {
             ProgressDialog progressDialog = null;
             Dialog dialog=null;
@@ -90,6 +139,8 @@ public class Banner extends AppCompatActivity {
                 //progressDialog = ProgressDialog.show(MenuRight.this, "", "در حال اتصال ...");
                 dialog = new Dialog(Banner.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+
                 dialog.setContentView(R.layout.dialog);
                 dialog.show();
             }
@@ -97,26 +148,34 @@ public class Banner extends AppCompatActivity {
             @Override
             protected Boolean doInBackground(Integer... params) {
                 CallRest cr=new CallRest();
-                categories = cr.GetRequests("");
+                categories = cr.GetCategory("");
                 return  true;
             }
             protected void onPostExecute(Boolean result) {
                 //progressDialog.dismiss();
-                listAdapter.notifyDataSetChanged();
-                Utility.setListViewHeightBasedOnChildren(inputList);
                 dialog.dismiss();
+                for(Category c:categories)
+                    items.add(c.Title);
+                adapter = new spinnerAdapter(Banner.this, android.R.layout.simple_list_item_1);
+                adapter.addAll(items);
+                adapter.add("دسته بندی");
+                city.setAdapter(adapter);
+                city.setSelection(adapter.getCount());
             }
+
         }.execute();
 
-        String[] items = new String[] {"One", "Two", "Three"};
-        Spinner city = (Spinner) findViewById(R.id.txtState);
+        city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+               new LongOperation().execute("?id="+categories.get(position-1).ID);
+            }
 
-        spinnerAdapter adapter = new spinnerAdapter(Banner.this, android.R.layout.simple_list_item_1);
-        adapter.addAll(items);
-        adapter.add("شهر");
-        city.setAdapter(adapter);
-        city.setSelection(adapter.getCount());
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.hlistview);
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -124,11 +183,40 @@ public class Banner extends AppCompatActivity {
         mAdapter = new AdapterSections(imgs);
         recyclerView.setAdapter(mAdapter);
 
+        new LongOperation().execute("?id=1");
         inputList = (ListView) findViewById(R.id.listView2);
         listAdapter=new ListAdapter(this);
         inputList.setAdapter(listAdapter);
 
     }
+
+    //------------------------------------------------------------------------
+    private class LongOperation extends AsyncTask<String, Integer, Boolean> {
+        ProgressDialog progressDialog = null;
+        Dialog dialog=null;
+
+        @Override
+        protected void onPreExecute() {
+            //progressDialog = ProgressDialog.show(MenuRight.this, "", "در حال اتصال ...");
+            dialog = new Dialog(Banner.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog);
+            dialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            CallRest cr=new CallRest();
+            fields=cr.GetFields(params[0]);
+            return  true;
+        }
+    protected void onPostExecute(Boolean result) {
+        //progressDialog.dismiss();
+        listAdapter.notifyDataSetChanged();
+        Utility.setListViewHeightBasedOnChildren(inputList);
+        dialog.dismiss();
+    }
+}
 
     //------------------------------------------------------------------------
     public class ListAdapter extends BaseAdapter {
@@ -141,7 +229,7 @@ public class Banner extends AppCompatActivity {
         }
 
         public int getCount() {
-            return categories.size();
+            return fields.Fields.size();
         }
 
         public Object getItem(int position) {
@@ -164,8 +252,28 @@ public class Banner extends AppCompatActivity {
             gridViewAndroid = new View(mContext);
             gridViewAndroid = inflater.inflate(R.layout.listview_input, null);
             EditText name = (EditText) gridViewAndroid.findViewById(R.id.editText);
-            name.setHint(categories.get(position).Title);
+            name.setHint(fields.Fields.get(position));
+            name.addTextChangedListener(new TextWatcher() {
 
+                @Override
+                public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                    // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                              int arg3) {
+                    // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable arg0) {
+                    // TODO Auto-generated method stub
+                    edits[position]=arg0.toString();
+                }
+            });
             return gridViewAndroid;
         }
 
@@ -274,6 +382,40 @@ public class Banner extends AppCompatActivity {
                 index++;
             }
         }
+    }
+
+    //------------------------------------------------------------------------------
+    public void uploadImage(File file) {
+        AsyncHttpClient myClient = new AsyncHttpClient();// یک کلاینت اچ تی تی پی ایجاد می کنیم.
+
+        RequestParams params = new RequestParams(); // یک متغییر برای پارامتر های درخواست پست ایجاد می کنیم.
+        try {
+            params.put("file", file); // فایل را با اندیس file به پارامترها اضافه میکنیم.
+        } catch (FileNotFoundException e) {
+        }
+        myClient.post(url + "android/upload.php", params, new AsyncHttpResponseHandler() { // درخواست را انجام می دهیم.
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) { // در صورت موفقیت
+                try {
+                    JSONObject jsonObject = new JSONObject(new String(responseBody)); // آبجکت جیسون را از داده های دریافتی از سرور ایجاد می کنیم.
+                    if (jsonObject.getString("status").equals("success")) { // در صورتی که اندیس status مقدار success داشته باشد یعنی داده با موفقیت آپلود شده است.
+// در دستورهای زیر آدرس فایل را از جیسون با اندیس filename میگیریم به ایمیج ویو با کمک کتابخانه پیکاسو لود می کنیم.
+//                        Picasso.with(getBaseContext())
+//                                .load(url + "android/uploads/" + jsonObject.getString("filename"))
+//                                .into(img);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+// در صورت موفق نبودن آپلود خطا را با تست به کاربر نشان میدهیم.
+                Toast.makeText(getBaseContext(), new String(responseBody), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     //------------------------------------------------------ Action Bar Menu

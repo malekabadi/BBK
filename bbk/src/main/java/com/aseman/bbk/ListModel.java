@@ -3,6 +3,9 @@ package com.aseman.bbk;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ListModel {
     
     private  String Name="";
@@ -157,6 +160,24 @@ class Section {
     public  String Ordering="";
 }
 
+class Request {
+
+    public  String ID="";
+    public  String Title="";
+    public  String CatID="";
+    public  String Content="";
+    public  String UserID="";
+    public  String UserName="";
+    public  String Location="";
+    public  String Activity="";
+    public  String Tel="";
+    public  String URL="";
+    public  String Expired="";
+    public  String Field1="";
+    public  String Field2="";
+    public  String Field3="";
+}
+
 class Status {
     
     public  String Code="";
@@ -167,6 +188,7 @@ class Category {
 
     public  String ID="";
     public  String Title="";
+    public  List<String> Fields=new ArrayList<String>();;
 }
 
 class Product {
@@ -230,38 +252,4 @@ class UserProfile {
     public  String RegDate="";
     public  String Log="";
    
-}
-
-class Order {
-    public  String ID="";
-    public  String OrderDate="";
-    public  String TrackNum="";
-    public  String InvoiceNum="";
-    public  String Status="";
-    public  String Total="";
-}
-
-class OrderDetail {
-    public  String ProID="";
-    public  String ProName="";
-    public  String InvNo="";
-    public  String Count="";
-    public  String Price="";
-    public  String Total="";
-}
-
-class Invoice {
-    public  String ID="";
-    public  String InvoiceDate="";
-    public  String Amount="";
-    public  String InvoiceNum="";
-    public  String Status="";
-    public  String OrderID="";
-    public  String TransactionDate="";
-    public  String Tref="";
-}
-class CheckOut{
-    public  String ID="";
-    public  String Count="";
-    public  String CID="";
 }

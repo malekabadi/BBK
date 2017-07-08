@@ -30,7 +30,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:src="@drawable/sale_ac" />
+            android:src="@drawable/buy" />
 
         <ImageView
             android:id="@+id/tab2"
@@ -40,7 +40,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:src="@drawable/buy" />
+            android:src="@drawable/prod" />
 
         <ImageView
             android:id="@+id/tab3"
@@ -72,7 +72,7 @@
         android:layout_centerHorizontal="true"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="3dp"
         android:orientation="horizontal">
 
         <TextView
@@ -83,7 +83,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:text="فروش"
+            android:text="خریدوفروش"
             android:textSize="13sp"
             android:gravity="center"
             android:src="@drawable/sale" />
@@ -95,7 +95,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginRight="10dp"
-            android:text="خرید"
+            android:text="محصولات"
             android:gravity="center"
             android:textSize="13sp"
             android:layout_weight="1"
@@ -129,11 +129,29 @@
 
     </LinearLayout>
 
+
+    <TextView
+        android:id="@+id/section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="5dp"
+        android:text="همه بخش ها"
+        android:gravity="center"
+        android:textSize="16dp"
+        android:background="@drawable/sectionbk"
+        android:padding="5dp"
+        android:drawableLeft="@drawable/ic_arrow_drop"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_centerHorizontal="true" />
+
+
     <ListView
         android:id="@+id/listView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout2"
+        android:layout_below="@+id/section"
         android:layout_centerHorizontal="true"
         android:background="#f5f5f6"/>
 

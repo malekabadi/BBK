@@ -66,7 +66,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:src="@drawable/sale" />
+            android:src="@drawable/buy" />
 
         <ImageView
             android:id="@+id/tab2"
@@ -76,7 +76,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginRight="20dp"
             android:layout_weight="1"
-            android:src="@drawable/buy" />
+            android:src="@drawable/prod" />
 
         <ImageView
             android:id="@+id/tab3"
@@ -118,7 +118,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:text="فروش"
+            android:text="خریدوفروش"
             android:textSize="13sp"
             android:gravity="center"
             android:src="@drawable/sale" />
@@ -130,7 +130,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginRight="10dp"
-            android:text="خرید"
+            android:text="محصولات"
             android:gravity="center"
             android:textSize="13sp"
             android:layout_weight="1"

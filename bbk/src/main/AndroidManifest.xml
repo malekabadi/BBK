@@ -33,9 +33,12 @@
         <activity android:name=".SendMail" />
         <activity android:name=".About" />
         <activity android:name=".Price" />
-        <activity android:name=".Introduction" />
+        <activity android:name=".Introduction"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ShowBanners" />
         <activity
             android:name=".MenuRight"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".HomeActivity"
